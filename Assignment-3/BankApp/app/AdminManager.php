@@ -69,7 +69,7 @@ class AdminManager
                             break;
 
                         case self::TRANSACTION_BY_CUSTOMER:
-                            $email = trim(readline("Enter your email: "));
+                            $email = trim(readline("Enter customer email: "));
                             $this->transactionByCustomer($email);
                             break;
                         case self::CUSTOMER_LIST:
