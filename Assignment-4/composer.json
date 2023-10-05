@@ -1,0 +1,18 @@
+{
+    "name": "rubel9997/bankapp",
+    "description": "This is simple bank app",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rubel Mahamud",
+            "email": "rubelmahamud9997@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "App\\":"src/"
+        }
+    }
+
+}
