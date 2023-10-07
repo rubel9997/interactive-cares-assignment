@@ -249,7 +249,7 @@
         <header class="py-10">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <h1 class="text-3xl font-bold tracking-tight text-white">
-                    Howdy, <?php echo isset($_SESSION['name']) ? $_SESSION['name'] : 'Ahmed Shamim' ; ?> 👋
+                    Howdy, <?= \App\Session::get('name');  ?> 👋
                 </h1>
             </div>
         </header>
@@ -258,6 +258,39 @@
     <main class="-mt-32">
         <div class="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
             <div class="bg-white rounded-lg p-2">
+
+                <?php
+                if(App\Session::get('success_message')){
+                    ?>
+                    <div class="flex items-center bg-green-100 border-l-4 border-green-500 py-2 px-3 my-2 mx-2 rounded-md shadow-md">
+                        <div class="text-green-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <?= \App\Session::get('success_message'); ?>
+                            <?php  unset($_SESSION['success_message']); ?>
+                        </div>
+                    </div>
+                    <?php
+                }
+                ?>
+
+                <?php
+                if(App\Session::get('error_message')){
+                    ?>
+                    <div class="flex items-center bg-red-100 border-l-4 border-red-500 py-2 px-3 my-2 mx-2 rounded-md shadow-md">
+                        <div class="text-red-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                            <?= \App\Session::get('error_message'); ?>
+                            <?php  unset($_SESSION['error_message']); ?>
+                        </div>
+                    </div>
+                    <?php
+                }
+                ?>
+
                 <!-- Current Balance Stat -->
                 <dl
                     class="mx-auto grid grid-cols-1 gap-px sm:grid-cols-2 lg:grid-cols-4">

@@ -28,9 +28,13 @@ Router::get('migrate',function (){
 
 
 
-//login and regsiter route
+//login and register route
 
 Router::get('',function (){
+
+//    $id = $_GET['id'];
+//    var_dump($id);
+
     (new LoginController())->getLoginPage();
 });
 
@@ -44,7 +48,7 @@ Router::post('login',function (){
 });
 
 Router::post('register',function (){
-    (new UserService(new UserDBRepository()))->create($_POST);
+    (new RegisterController())->register($_POST);
 });
 
 Router::get('logout',function (){
@@ -83,6 +87,10 @@ Router::get('transactions',function (){
     (new AdminDashboardController())->transaction();
 });
 
-Router::get('customer-transaction',function (){
+Router::get('customer-transactions',function (){
     (new AdminDashboardController())->customerTransaction();
+});
+
+Router::post('customer-store',function (){
+    (new UserService(new UserDBRepository()))->create($_POST);
 });

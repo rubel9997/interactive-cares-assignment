@@ -79,9 +79,9 @@
                       <span class="sr-only">Open user menu</span>
                       <span
                         class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-sky-100">
-                        <span class="font-medium leading-none text-sky-700"
-                          >AS</span
-                        >
+                         <span class="font-medium leading-none text-sky-700">
+                            <?=  \App\Helper::getLoggedInUserShortName(\App\Session::get('name'));?>
+                        </span>
                       </span>
                       <!-- <img
                         class="w-10 h-10 rounded-full"
@@ -100,7 +100,7 @@
                     aria-labelledby="user-menu-button"
                     tabindex="-1">
                     <a
-                      href="#"
+                      href="/logout"
                       class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       role="menuitem"
                       tabindex="-1"
@@ -213,7 +213,7 @@
               </div>
               <div class="px-2 mt-3 space-y-1">
                 <a
-                  href="#"
+                  href="/logout"
                   class="block px-3 py-2 text-base font-medium text-white rounded-md hover:bg-sky-500 hover:bg-opacity-75"
                   >Sign out</a
                 >
@@ -234,8 +234,7 @@
       <main class="-mt-32">
         <div class="px-4 pb-12 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div class="bg-white rounded-lg">
-            <form
-              class="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2">
+            <form action="/customer-store" method="POST" class="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2">
               <div class="px-4 py-6 sm:p-8">
                 <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                   <div class="sm:col-span-3">

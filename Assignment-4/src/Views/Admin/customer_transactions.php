@@ -83,9 +83,9 @@
                         alt="Ahmed Shamim Hasan Shaon" /> -->
                       <span
                         class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-sky-100">
-                        <span class="font-medium leading-none text-sky-700"
-                          >AS</span
-                        >
+                         <span class="font-medium leading-none text-sky-700">
+                            <?=  \App\Helper::getLoggedInUserShortName(\App\Session::get('name'));?>
+                        </span>
                       </span>
                     </button>
                   </div>
@@ -100,7 +100,7 @@
                     aria-labelledby="user-menu-button"
                     tabindex="-1">
                     <a
-                      href="#"
+                      href="/logout"
                       class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       role="menuitem"
                       tabindex="-1"
@@ -213,7 +213,7 @@
               </div>
               <div class="mt-3 space-y-1 px-2">
                 <a
-                  href="#"
+                  href="/logout"
                   class="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-sky-500 hover:bg-opacity-75"
                   >Sign out</a
                 >
@@ -221,10 +221,18 @@
             </div>
           </div>
         </nav>
+
+          <?php
+          $customerData = (new \App\Auth\AdminDashboardController())->getCustomer($_GET['id']);
+          if (!empty($customerData) && is_array($customerData) && isset($customerData[0])) {
+              $customer = $customerData[0];
+          }
+          ?>
+
         <header class="py-10">
           <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <h1 class="text-3xl font-bold tracking-tight text-white">
-              Transactions of Al Nahian
+              Transactions of <?= $customer->name ;?>
             </h1>
           </div>
         </header>
@@ -238,7 +246,7 @@
               <div class="sm:flex sm:items-center">
                 <div class="sm:flex-auto">
                   <p class="mt-2 text-sm text-gray-700">
-                    List of transactions made by Al Nahian.
+                    List of transactions made by <?= $customer->name ;?>.
                   </p>
                 </div>
               </div>

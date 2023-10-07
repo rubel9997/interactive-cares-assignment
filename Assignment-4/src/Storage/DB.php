@@ -43,8 +43,8 @@ class DB
     {
         try {
             $this->conn->exec($sql);
-            Session::set('success_message','Registration successfully.');
-            header("Location: /");
+            Session::set('success_message','User has been created successfully.');
+            header("Location: /admin-dashboard");
             exit();
         } catch (PDOException $e) {
             echo $e->getMessage();

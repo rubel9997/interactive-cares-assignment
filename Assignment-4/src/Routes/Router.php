@@ -31,16 +31,17 @@ class Router
 
         $method = $_SERVER['REQUEST_METHOD'];
         $page = trim($_SERVER['REQUEST_URI'], '/');
+        $explodePage = explode('?',$page);
+
+//        var_dump($explodePage);
+
 
         foreach (self::$list as $item) {
-            if ($item['page'] === $page && $item['method'] === $method) {
+            if ($item['page'] === $explodePage[0] && $item['method'] === $method) {
                 $item['logic']();
                 return;
             }
         }
         die('Not found page');
-//        $_SESSION['error_message'] = "This user does not exists our records.";
-//        header("Location: /");
-//        exit();
     }
 }

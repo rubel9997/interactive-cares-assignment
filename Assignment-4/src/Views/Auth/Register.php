@@ -41,12 +41,22 @@
 
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
         <div class="px-6 py-12 bg-white shadow sm:rounded-lg sm:px-12">
-            <div class="mb-3">
-              <span class="text-red-600">
-                  <?= \App\Session::get('error_message');  ?>
-              </span>
-                <?= \App\Session::unset(); ?>
-            </div>
+
+            <?php
+            if(App\Session::get('error_message')){
+                ?>
+                <div class="flex items-center bg-red-100 border-l-4 border-red-500 py-2 px-3 my-2 mx-2 rounded-md shadow-md">
+                    <div class="text-red-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                        <?= \App\Session::get('error_message'); ?>
+                        <?php  unset($_SESSION['error_message']); ?>
+                    </div>
+                </div>
+                <?php
+            }
+            ?>
             <form
                 class="space-y-6"
                 action="/register"

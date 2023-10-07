@@ -3,11 +3,19 @@
 
 namespace App\Auth;
 
-
 use App\Session;
+use App\Storage\DB;
+use PDO;
+
 
 class AdminDashboardController
 {
+    private DB $db;
+    public function __construct()
+    {
+        $this->db = new DB();
+    }
+
     public function adminDashboardPage()
     {
         if(Session::get('login')){
@@ -15,7 +23,6 @@ class AdminDashboardController
         }else{
             header('Location: /');
         }
-
     }
 
     public function addCustomer()
@@ -25,7 +32,6 @@ class AdminDashboardController
         }else{
             header('Location: /');
         }
-
     }
 
     public function transaction()
@@ -35,7 +41,6 @@ class AdminDashboardController
         }else{
             header('Location: /');
         }
-
     }
 
     public function customerTransaction()
@@ -45,6 +50,23 @@ class AdminDashboardController
         }else{
             header('Location: /');
         }
+    }
 
+    public function getCustomer($id)
+    {
+        $query = "SELECT * FROM users WHERE id = ?";
+        $statement = $this->db->conn->prepare($query);
+        $statement->execute([$id]);
+
+        return $statement->fetchAll(PDO::FETCH_OBJ); //PDO::FETCH_ASSOC
+    }
+
+    public function getCustomers()
+    {
+        $query = "SELECT * FROM users WHERE role = 'customer'";
+        $statement = $this->db->conn->prepare($query);
+        $statement->execute();
+
+        return $statement->fetchAll(PDO::FETCH_OBJ); //PDO::FETCH_ASSOC
     }
 }

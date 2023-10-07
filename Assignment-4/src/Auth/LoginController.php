@@ -23,7 +23,12 @@ class LoginController
         if(!Session::get('login')){
             require_once __DIR__ . '/../Views/Auth/Login.php';
         }else{
-            header("Location: /dashboard");
+            if(Session::get('role') == 'admin'){
+                header("Location: /admin-dashboard");
+            }else{
+                header("Location: /dashboard");
+            }
+
         }
     }
 
@@ -52,8 +57,10 @@ class LoginController
                 Session::set('user_id',$result['id']);
                 Session::set('name',$result['name']);
                 Session::set('email',$result['email']);
+                Session::set('role',$result['role']);
                 Session::set('success_message','Login successfully!');
                 Session::set('login',true);
+
                 if($result['role'] == 'admin'){
                     header("Location: /admin-dashboard");
                 }else{

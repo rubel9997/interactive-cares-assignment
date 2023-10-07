@@ -14,6 +14,7 @@ class UserService
         $this->userRepository = $userRepository;
     }
 
+
     public function create(array $data)
     {
         $this->userRepository->insert($data);
