@@ -6,8 +6,10 @@ namespace App\Routes;
 
 use App\Auth\AdminDashboardController;
 use App\Auth\DashboardController;
+use App\Auth\DepositController;
 use App\Auth\RegisterController;
 use App\Auth\LoginController;
+use App\Auth\WithdrawController;
 use App\Database\Migration;
 use App\Repository\UserDBRepository;
 use App\Service\UserService;
@@ -93,4 +95,20 @@ Router::get('customer-transactions',function (){
 
 Router::post('customer-store',function (){
     (new UserService(new UserDBRepository()))->create($_POST);
+});
+
+//deposit route
+
+Router::post('add-deposit',function (){
+    (new DepositController())->addDeposit($_POST);
+});
+
+//withdraw route
+Router::post('add-withdraw',function (){
+    (new WithdrawController())->addWithdraw($_POST);
+});
+
+//fund transfer route
+Router::post('fund-transfer',function (){
+    (new WithdrawController())->fundTransfer($_POST);
 });

@@ -13,19 +13,14 @@ class Helper
 
     public static function shortName($name)
     {
-//        var_dump($customer);
+
         $explodeName = explode(' ', $name);
 
         $firstLetterOfFirstName = $explodeName[0][0] ?? '';
         $firstLetterOfLastName = $explodeName[1][0] ?? '';
 
-        return $firstLetterOfFirstName . $firstLetterOfLastName;
+        return strtoupper($firstLetterOfFirstName . $firstLetterOfLastName);
     }
-
-    public static function getLoggedInUserShortName($name){
-       return self::shortName($name);
-    }
-
 
 }
 
