@@ -2,26 +2,20 @@
 
 namespace App\CLI;
 
-
-use App\Common\CustomerRole;
-use App\Common\UserRole;
-
-class Customer
+class User
 {
-
     private string $name;
     private string $email;
     private string $password;
 
-    protected UserRole $role;
+    protected string $role;
 
     public static function getModelName(): string
     {
-        return 'customers';
+        return 'users';
     }
 
-    public function setName(string $name)
-    {
+    public function setName(string $name){
         $this->name = $name;
     }
 
@@ -42,7 +36,7 @@ class Customer
 
     public function setPassword($password)
     {
-        $this->password = password_hash($password, PASSWORD_DEFAULT);
+        $this->password = password_hash($password,PASSWORD_DEFAULT);
     }
 
     public function getPassword()
@@ -50,12 +44,11 @@ class Customer
         return $this->password;
     }
 
-    public function setRole(UserRole $role)
-    {
+    public function setRole(string $role){
         $this->role = $role;
     }
 
-    public function getRole(): UserRole
+    public function getRole()
     {
         return $this->role;
     }

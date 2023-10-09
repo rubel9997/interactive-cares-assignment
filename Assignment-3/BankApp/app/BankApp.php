@@ -9,7 +9,7 @@ use App\CustomerManager;
 class BankApp
 {
     private CustomerManager $customerManager;
-  private AdminManager $adminManager;
+    private AdminManager $adminManager;
 
     private const LOGIN=1;
     private const REGISTER=2;

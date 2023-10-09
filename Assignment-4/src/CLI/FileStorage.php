@@ -5,26 +5,18 @@ namespace App\CLI;
 class FileStorage implements Storage
 {
 
-    public function save(string $model, array $data): void
-    {
-        file_put_contents($this->getModelPath($model), serialize($data));
+    public function save(string $model,array $data):void{
+        file_put_contents($this->getModelPath($model),serialize($data));
     }
+    public function load(string $model):array{
 
-    public function load(string $model): array
-    {
-        $data = [];
-        if (file_exists($this->getModelPath($model))) {
-            $data = unserialize(file_get_contents($this->getModelPath($model)));
-        }
-        if (!is_array($data)) {
-            return [];
-        }
+       if(file_exists($this->getModelPath($model))){
+            return unserialize(file_get_contents($this->getModelPath($model)));
+       }
+       return [];
 
-        return $data;
     }
-
-    public function getModelPath(string $model): string
-    {
+    public function getModelPath(string $model):string{
         return 'data/' . $model . ".txt";
     }
 

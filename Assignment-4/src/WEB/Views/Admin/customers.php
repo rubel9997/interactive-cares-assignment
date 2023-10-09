@@ -4,7 +4,6 @@ use App\WEB\Controller\AdminDashboardController;
 
 $customers = (new AdminDashboardController())->getCustomerList();
 
-
 ?>
 
 <!DOCTYPE html>

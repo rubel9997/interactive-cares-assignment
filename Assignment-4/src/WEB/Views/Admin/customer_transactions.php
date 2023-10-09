@@ -47,7 +47,7 @@ $customer = (new AdminDashboardController())->getCustomer($_GET['id']);
       }
     </style>
 
-    <title>Transactions of <?= $customer['name'] ;?></title>
+    <title>Transactions of <?php echo $customer['name'] ?? "Alex";?></title>
   </head>
   <body class="h-full">
     <div class="min-h-full">
@@ -58,7 +58,7 @@ $customer = (new AdminDashboardController())->getCustomer($_GET['id']);
         <header class="py-10">
           <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <h1 class="text-3xl font-bold tracking-tight text-white">
-              Transactions of <?= $customer['name'] ;?>
+              Transactions of <?php echo $customer['name'] ?? "Alex";?>
             </h1>
           </div>
         </header>
@@ -72,7 +72,7 @@ $customer = (new AdminDashboardController())->getCustomer($_GET['id']);
               <div class="sm:flex sm:items-center">
                 <div class="sm:flex-auto">
                   <p class="mt-2 text-sm text-gray-700">
-                    List of transactions made by <?= $customer['name'] ;?>.
+                    List of transactions made by <?php echo $customer['name'] ?? "Alex";?>.
                   </p>
                 </div>
               </div>

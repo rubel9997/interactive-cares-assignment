@@ -19,7 +19,7 @@ use App\WEB\Session;
 use App\WEB\Storage\DB;
 
 
-Router::get('xclear',function (){
+Router::get('xclean',function (){
     clearstatcache();
     echo 'Cache Clear!';
 });

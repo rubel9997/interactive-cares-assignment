@@ -55,7 +55,7 @@ class UserFileRepository implements UserRepository
         $password = $this->validation->validated($data['password']);
 
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        $user_exists = $this->userExists($email);
+        $user_exists = $this->userExists($email,UserRole::CUSTOMER);
         $emailValidation = Helper::validateEmail($email);
 
         if(empty($name) || empty($email) || empty($password)){
@@ -95,7 +95,7 @@ class UserFileRepository implements UserRepository
         printf("User registration successfully!\n\n");
     }
 
-    public function userExists(string $email, UserRole $role): ? Customer
+    public function userExists(string $email, string $role): ? Customer
     {
         foreach ($this->customers as $customer){
             if ($customer->getEmail() == $email && $customer->getRole() == $role) {
