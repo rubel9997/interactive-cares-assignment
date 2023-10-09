@@ -1,12 +1,10 @@
 <?php
 
 require_once "vendor/autoload.php";
-require_once __DIR__."/src/Routes/Routes.php";
+require_once __DIR__ . "/src/WEB/Routes/Routes.php";
 
-\App\Session::init();
-//session_start();
-use App\Auth\AdminDashboardController;
-use App\Routes\Router;
+\App\WEB\Session::init();
+use App\WEB\Routes\Router;
 
 
 Router::run();
