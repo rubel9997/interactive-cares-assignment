@@ -4,8 +4,8 @@
 
 require_once "vendor/autoload.php";
 
-use App\CLI\BankApp;
+use App\CLI\CLIBankApp;
 
-$bankApp = new BankApp();
+$bankApp = new CLIBankApp();
 
 $bankApp->adminRun();

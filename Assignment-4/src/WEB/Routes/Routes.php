@@ -169,7 +169,7 @@ Router::get('customer-transactions',function (){
 Router::post('customer-store',function (){
 
     if(Session::get('login') && Session::get('role') == UserRole::ADMIN){
-        (new UserService(new UserDBRepository()))->create($_POST);
+        (new RegisterController())->register($_POST);
     }else{
         header("Location: /");
     }
