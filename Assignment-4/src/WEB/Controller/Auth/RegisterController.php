@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace App\WEB\Controller\Auth;
 
@@ -11,7 +11,7 @@ use App\WEB\Session;
 class RegisterController extends  AuthController
 {
 
-    public function getRegisterPage()
+    public function getRegisterPage():void
     {
         if(!Session::get('login')){
             require_once __DIR__ . '/../../Views/Auth/Register.php';
@@ -25,7 +25,7 @@ class RegisterController extends  AuthController
         }
     }
 
-    public function register(array $data)
+    public function register(array $data):void
     {
         $name = $this->validation->validated($data['name']);
         $firstName = $this->validation->validated($data['first-name']);
