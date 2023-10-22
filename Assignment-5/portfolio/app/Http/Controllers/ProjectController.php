@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
@@ -17,7 +16,26 @@ class ProjectController extends Controller
     }
 
 
-    public function view(){
-        return view('project.view');
+    public function view(Request $request){
+        //dd($request);
+        $id = $request->id;
+        $project= $this->getProjectById($id);
+
+        if($project){
+            return view('projects.view',compact('project'));
+        }
+
+    }
+
+    public function getProjectById($id){
+        $file = File::json(storage_path('data/projects.json'));
+
+        foreach($file as $value){
+            if($id == $value['id']){
+                return $value;
+            }
+        }
+        return null;
     }
 }
+

@@ -9,13 +9,12 @@
         <div class="container-fluid px-3 px-md-0">
             <div class="row justify-content-center">
                 <div class="mb-4">
-                    <h2 class="text-uppercase">Welcome to our portfolio</h2>
-                    {{-- @dd($data[0]['image']) --}}
+                    <h2 class="text-uppercase">projects</h2>
                 </div>
             </div>
-            <div class="row justify-content-center ">
+            <div class="row project-list">
                 @foreach ($data as $key=>$item)
-                <div class="col-md-4 justify-content-center align-item-center">
+                <div class="col-md-3">
                     <div class="card" style="width: 18rem;">
                         <img class="card-img-top" src="{{asset($item['image'])}}" alt="project image">
                         <div class="card-body">

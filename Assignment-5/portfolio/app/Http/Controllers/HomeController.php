@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -11,6 +12,7 @@ class HomeController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return view('home');
+        $data = File::json(storage_path('data/personal-info.json'));
+        return view('home',compact('data'));
     }
 }

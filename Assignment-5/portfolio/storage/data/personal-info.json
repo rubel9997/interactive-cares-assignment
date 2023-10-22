@@ -1,0 +1,22 @@
+
+    [
+        {
+            "name":"Rubel Mahamud",
+            "email":"rubelmahamud9997@gmail.com",
+            "phone":"01612980501",
+            "image":"images/profile.png",
+            "education": [
+            {
+                "degree": "Bachelor of Science in Computer Science",
+                "institution": "Example University",
+                "graduation_year": "2022"
+            },
+            {
+                "degree": "High School Diploma",
+                "institution": "Example High School",
+                "graduation_year": "2018"
+            }
+        ]
+        }
+    ]
+

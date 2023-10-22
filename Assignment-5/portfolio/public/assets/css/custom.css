@@ -3,6 +3,12 @@
     height: 100%;
 }
 
-.card{
+.project-list .card{
     min-height: 40vh;
+}
+
+
+.experience .card{
+    min-height: 25vh;
+    max-height: 25vh;
 }
