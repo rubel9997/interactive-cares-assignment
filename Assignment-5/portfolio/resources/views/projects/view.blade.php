@@ -14,11 +14,14 @@
             </div>
             <div class="row">
              <div class="col-md-12">
-                <div class="">
+                <div class="card p-5">
                     <img src="{{asset($project['image'])}}" width="50%" alt="">
-                    <p class="mt-3"><strong>Title : </strong>{{$project['title']}}</p>
-                    <p class="mt-3"><strong>Slug : </strong>{{$project['slug']}}</p>
-                    <p class="mt-3"><strong>Description : </strong>{{$project['description']}}</p>
+                    <div class="mt-4">
+                        <p><span  class="h5">Title :</span> {{$project['title']}}</p>
+                        <p><span  class="h5">Slug :</span> {{$project['slug']}}</p>
+                        <p><span  class="h5">Description :</span> {{$project['description']}}</p>
+                    </div>
+
                 </div>
              </div>
             </div>
