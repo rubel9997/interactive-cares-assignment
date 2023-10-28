@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace App\WEB\Controller;
 
@@ -10,7 +10,7 @@ use App\WEB\Session;
 class WithdrawController extends TransactionController
 {
 
-    public function addWithdraw(array $data)
+    public function addWithdraw(array $data):void
     {
         try{
             $amount =$this->validate->validated($data['amount']);
@@ -49,7 +49,7 @@ class WithdrawController extends TransactionController
         }
     }
 
-    public function fundTransfer(array $data)
+    public function fundTransfer(array $data):void
     {
         $this->db->conn->beginTransaction();
         try{

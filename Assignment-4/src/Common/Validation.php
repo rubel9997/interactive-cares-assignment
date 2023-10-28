@@ -7,7 +7,7 @@ namespace App\Common;
 class Validation
 {
 
-    public function validated($data)
+    public function validated(string $data):string
     {
         $data = trim($data);
         $data = stripcslashes($data);

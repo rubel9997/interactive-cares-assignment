@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\ExperienceController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +16,9 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/', function (Request $request) {
-    //dd($request);
-    return view('layouts.app');
-});
+Route::get('/', HomeController::class)->name('home');
+
+Route::get('/experience',[ExperienceController::class,'index'])->name('experience');
+
+Route::get('/project',[ProjectController::class,'index'])->name('project');
+Route::get('/project-view/{id}',[ProjectController::class,'view'])->name('project-view');

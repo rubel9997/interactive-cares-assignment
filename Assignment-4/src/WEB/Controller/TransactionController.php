@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\WEB\Controller;
 
 use App\Common\TransactionType;
@@ -18,7 +20,7 @@ class TransactionController
         $this->validate = new Validation();
     }
 
-    public function getBalance($user_id)
+    public function getBalance(string $user_id):float
     {
         $balance = 0;
 
@@ -41,7 +43,7 @@ class TransactionController
         return $balance;
     }
 
-    public function getTransactionList($user_id)
+    public function getTransactionList(string $user_id):array
     {
 
         $query = "SELECT transactions.id AS transaction_id,transactions.transaction_type,transactions.amount, transactions.transaction_date,
@@ -60,7 +62,7 @@ class TransactionController
         return $transaction_list->fetchAll();
     }
 
-    public function getTotalTransactionList()
+    public function getTotalTransactionList():array
     {
         $query = "SELECT transactions.id AS transaction_id,transactions.transaction_type,transactions.amount, transactions.transaction_date,
         users_sender.name AS sender_name,

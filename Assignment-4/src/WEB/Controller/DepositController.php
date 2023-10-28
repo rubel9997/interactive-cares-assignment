@@ -11,7 +11,7 @@ class DepositController extends TransactionController
 {
 
 
-    public function addDeposit(array $data)
+    public function addDeposit(array $data):void
     {
         $amount =$this->validate->validated($data['amount']);
         $user_id = Session::get('user_id');

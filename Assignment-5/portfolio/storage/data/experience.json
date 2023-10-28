@@ -1,0 +1,27 @@
+[
+
+    {
+        "time": "2017-2018",
+        "position": "Web Developer",
+        "company": "Tech Innovators Inc.",
+        "location": "San Francisco"
+    },
+    {
+        "time": "2018-2019",
+        "position": "Cloud Engineer",
+        "company": "CloudTech Solutions",
+        "location": "Seattle"
+    },
+    {
+        "time": "2020-2021",
+        "position": "Mobile App Developer",
+        "company": "Mobile Apps Ltd.",
+        "location": "Los Angeles"
+    },
+    {
+        "time": "2022-2023",
+        "position": "Full Stack Developer",
+        "company": "E-commerce Ventures",
+        "location": "Chicago"
+    }
+]

@@ -1,0 +1,14 @@
+.card-img-top {
+    object-fit: cover;
+    height: 100%;
+}
+
+.project-list .card{
+    min-height: 40vh;
+}
+
+
+.experience .card{
+    min-height: 25vh;
+    max-height: 25vh;
+}

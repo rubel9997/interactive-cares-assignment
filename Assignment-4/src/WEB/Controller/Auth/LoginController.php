@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\WEB\Controller\Auth;
 
 
@@ -11,7 +13,7 @@ class LoginController extends  AuthController
 {
 
 
-    public function getLoginPage()
+    public function getLoginPage():void
     {
         if(!Session::get('login')){
             require_once __DIR__ . '/../../Views/Auth/Login.php';
@@ -25,7 +27,7 @@ class LoginController extends  AuthController
         }
     }
 
-    public function login(array $data)
+    public function login(array $data):void
     {
         $email = $this->validation->validated($data['email']);
         $password = $this->validation->validated($data['password']);
