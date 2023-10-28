@@ -3,7 +3,7 @@
         'name' => 'rubel9997/bankapp',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '319c1999dcb8c97848edd915135d4d46a002691c',
+        'reference' => 'ea9d87689666c399f25e69a0fc58d4d3fdd330e6',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'rubel9997/bankapp' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '319c1999dcb8c97848edd915135d4d46a002691c',
+            'reference' => 'ea9d87689666c399f25e69a0fc58d4d3fdd330e6',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
