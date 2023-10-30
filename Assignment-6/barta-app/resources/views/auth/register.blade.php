@@ -46,22 +46,43 @@
             <!-- Name -->
             <div>
                 <label
-                    for="name"
+                    for="first_name"
                     class="block text-sm font-medium leading-6 text-gray-900"
-                >Full Name</label
+                >First Name</label
                 >
                 <div class="mt-2">
                     <input
-                        id="name"
-                        name="name"
+                        id="first_name"
+                        name="first_name"
                         type="text"
                         autocomplete="name"
-                        placeholder="Alp Arslan"
+                        placeholder="Alp"
                         required
                         value="{{ old('name') }}"
                         class="block w-full rounded-md border-0 p-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black sm:text-sm sm:leading-6" />
                 </div>
-                @error('name')
+                @error('first_name')
+                <span class="mt-1 text-red-700 text-sm">{{ $message }}</span>
+                @enderror
+            </div>
+            <div>
+                <label
+                    for="last_name"
+                    class="block text-sm font-medium leading-6 text-gray-900"
+                >Last Name</label
+                >
+                <div class="mt-2">
+                    <input
+                        id="last_name"
+                        name="last_name"
+                        type="text"
+                        autocomplete="name"
+                        placeholder="Arslan"
+                        required
+                        value="{{ old('name') }}"
+                        class="block w-full rounded-md border-0 p-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black sm:text-sm sm:leading-6" />
+                </div>
+                @error('last_name')
                 <span class="mt-1 text-red-700 text-sm">{{ $message }}</span>
                 @enderror
             </div>

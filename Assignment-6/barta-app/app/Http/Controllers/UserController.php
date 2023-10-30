@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -22,10 +26,39 @@ class UserController extends Controller
 
     public function update(Request $request)
     {
-        $fullName = $request->first_name.' '.$request->last_name;
+        try{
+            $validator = Validator::make($request->all(), [
+                'first_name' => 'required',
+                'last_name' => 'required',
+                'password' => 'nullable|min:6',
+            ]);
 
-        $data = DB::table('users')->update([
-            'name'=>$fullName,
-        ]);
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+
+            $user_data = [
+                'first_name'=>$request->first_name,
+                'last_name'=>$request->last_name,
+                'bio'=>$request->bio,
+            ];
+
+            if ($request->has('password') && !empty($request->input('password'))) {
+                $data['password'] = Hash::make($request->input('password'));
+            }
+
+
+            $data = DB::table('users')->where('id',Auth::id())->update($user_data);
+
+            if($data){
+                Session::flash('success','Your profile updated successfully');
+                return redirect()->route('profile');
+            }else{
+                return redirect()->route('profile');
+            }
+
+        }catch (Exception $exception){
+            return redirect()->back()->with('error',$exception->getMessage());
+        }
     }
 }

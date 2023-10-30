@@ -6,6 +6,7 @@
         <!-- Profile Edit Form -->
 
         <form action="{{route('update.profile')}}" method="post" enctype="multipart/form-data">
+            @csrf
             <div class="space-y-12">
                 <div class="border-b border-gray-900/10 pb-12">
                     <h2 class="text-xl font-semibold leading-7 text-gray-900">
@@ -65,9 +66,12 @@
                                         name="first_name"
                                         id="first-name"
                                         autocomplete="given-name"
-                                        value="{{explode(' ',$data->name)[0] ?? ''}}"
+                                        value="{{$data->first_name ?? ''}}"
                                         class="block w-full rounded-md border-0 p-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6" />
                                 </div>
+                                @error('first_name')
+                                <span class="mt-1 text-red-700 text-sm">{{ $message }}</span>
+                                @enderror
                             </div>
 
                             <div class="sm:col-span-3">
@@ -81,10 +85,13 @@
                                         type="text"
                                         name="last_name"
                                         id="last-name"
-                                        value="{{explode(' ',$data->name)[1] ?? ''}}"
+                                        value="{{$data->last_name ?? ''}}"
                                         autocomplete="family-name"
                                         class="block w-full rounded-md border-0 p-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6" />
                                 </div>
+                                @error('last_name')
+                                <span class="mt-1 text-red-700 text-sm">{{ $message }}</span>
+                                @enderror
                             </div>
 
                             <div class="col-span-full">
@@ -119,6 +126,9 @@
                                         autocomplete="password"
                                         class="block w-full rounded-md border-0 p-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6" />
                                 </div>
+                                @error('password')
+                                <span class="mt-1 text-red-700 text-sm">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                     </div>

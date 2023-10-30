@@ -21,12 +21,20 @@ use Illuminate\Support\Facades\Route;
 //    return view('auth.login');
 //});
 
+
+//Route::get('/admin',function (){
+//    dd('Hello world.This is admin panel');
+//})->middleware('auth');
+
+
 //Dashboard route
+//Route::get('/login',[LoginController::class,'loginForm']);
 Route::get('/dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
 
 //login and register route
 Route::get('/',[LoginController::class,'loginForm'])->name('login-form');
 Route::post('login',[LoginController::class,'login'])->name('login');
+Route::post('logout',[LoginController::class,'logout'])->name('logout');
 Route::get('register-from',[RegisterController::class,'registerForm'])->name('register-form');
 Route::post('register',[RegisterController::class,'register'])->name('register');
 

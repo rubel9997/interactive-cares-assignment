@@ -122,13 +122,17 @@
                             >Edit Profile</a
                             >
                             <a
-                                href="#"
+                                href="{{route('logout')}}"
+                                onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();"
                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                 role="menuitem"
                                 tabindex="-1"
                                 id="user-menu-item-2"
-                            >Sign out</a
-                            >
+                            >Sign out</a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
                         </div>
                     </div>
                 </div>

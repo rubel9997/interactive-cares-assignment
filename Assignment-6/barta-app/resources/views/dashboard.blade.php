@@ -26,7 +26,7 @@
                   class="block w-full p-2 pt-2 text-gray-900 rounded-lg border-none outline-none focus:ring-0 focus:ring-offset-0"
                   name="barta"
                   rows="2"
-                  placeholder="What's going on, Shamim?"></textarea>
+                  placeholder="What's going on, {{$data->first_name}}?"></textarea>
                     </div>
                 </div>
             </div>

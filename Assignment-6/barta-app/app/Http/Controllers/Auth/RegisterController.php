@@ -21,12 +21,14 @@ class RegisterController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'name' => 'required',
+                'first_name' => 'required',
+                'last_name' => 'required',
                 'username' => 'required|unique:users',
                 'email' => 'required|email|unique:users',
                 'password' => 'required|min:6',
             ], [
-                'name.required' => 'The name field is required.',
+                'first_name.required' => 'The first name field is required.',
+                'last_name.required' => 'The last name field is required.',
                 'username.required' => 'The username field is required.',
                 'username.unique' => 'The username has already been taken.',
                 'email.required' => 'The email field is required.',
@@ -35,7 +37,8 @@ class RegisterController extends Controller
                 'password.required' => 'The password field is required.',
                 'password.min' => 'The password must be at least :min characters.',
             ], [
-                'name' => 'Full Name',
+                'first_name' => 'First Name',
+                'last_name' => 'Last Name',
                 'username' => 'Username',
                 'email' => 'Email Address',
                 'password' => 'Password',
@@ -62,7 +65,8 @@ class RegisterController extends Controller
     public function create(array $data)
     {
         return DB::table('users')->insert([
-           'name'=>$data['name'],
+           'first_name'=>$data['first_name'],
+           'last_name'=>$data['last_name'],
            'username'=>$data['username'],
            'email'=>$data['email'],
            'password'=>Hash::make($data['password']),

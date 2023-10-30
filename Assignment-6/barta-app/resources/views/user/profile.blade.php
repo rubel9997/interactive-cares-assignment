@@ -21,7 +21,7 @@
 
                 <!-- User Meta -->
                 <div>
-                    <h1 class="font-bold md:text-2xl">{{$data->name ?? 'Mr.Alex'}}</h1>
+                    <h1 class="font-bold md:text-2xl">{{$data->first_name.' '.$data->last_name ?? 'Mr.Alex'}}</h1>
                     <p class="text-gray-700">{{$data->bio ?? ''}}</p>
                 </div>
                 <!-- / User Meta -->
@@ -95,10 +95,10 @@
                     <!-- Content -->
                     <div class="text-gray-700 font-normal w-full">
               <textarea
-                  class="block w-full pt-2 text-gray-900 rounded-lg border-none outline-none focus:ring-0 focus:ring-offset-0"
+                  class="block w-full ms-2 pt-2 text-gray-900 rounded-lg border-none outline-none focus:ring-0 focus:ring-offset-0"
                   name="barta"
                   rows="2"
-                  placeholder="What's going on, Shamim?"></textarea>
+                  placeholder="What's going on, {{$data->first_name}}?"></textarea>
                     </div>
                 </div>
             </div>
@@ -212,15 +212,15 @@
                         <!-- User Info -->
                         <div class="text-gray-900 flex flex-col min-w-0 flex-1">
                             <a
-                                href="https://github.com/me_shaon"
+                                href="{{route('profile')}}"
                                 class="hover:underline font-semibold line-clamp-1">
-                                Ahmed Shamim Hasan Shaon
+                                {{$data->first_name.' '.$data->last_name ?? "Mr.Alex"}}
                             </a>
 
                             <a
-                                href="https://twitter.com/me_shaon"
+                                href="{{route('profile')}}"
                                 class="hover:underline text-sm text-gray-500 line-clamp-1">
-                                @me_shaon
+                                {{ '@'.$data->username }}
                             </a>
                         </div>
                         <!-- /User Info -->
