@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginUserRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -15,22 +16,18 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-    public function login(Request $request)
+    public function login(LoginUserRequest $request)
     {
-        $validator = Validator::make($request->all(),[
-            'email'=>'required',
-            'password'=>'required',
-        ]);
+        try{
+            $credentials = $request->safe()->only(['email', 'password']);
+            if(Auth::attempt($credentials)){
+                return redirect()->intended('dashboard')->with('success','You have Successfully Login');
+            }else{
+                return back()->withErrors(['email' => 'The provided credentials do not match our records.',])->onlyInput('email');
+            }
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-
-        $credentials = $request->only('email', 'password');
-        if(Auth::attempt($credentials)){
-            return redirect()->intended('dashboard')->with('success','You have Successfully Login');
-        }else{
-            return back()->withErrors(['email' => 'The provided credentials do not match our records.',])->onlyInput('email');
+        }catch (\Exception $exception){
+            return redirect()->back()->with('error',$exception->getMessage());
         }
     }
 
