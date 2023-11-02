@@ -28,7 +28,14 @@ class RegisterController extends Controller
             }
 
             $user_data = $request->safe()->only(['first_name','last_name','username','email','password']);
-            $data = $this->create($user_data);
+            
+            $data = DB::table('users')->insert([
+                   'first_name'=>$data['first_name'],
+                   'last_name'=>$data['last_name'],
+                   'username'=>$data['username'],
+                   'email'=>$data['email'],
+                   'password'=>Hash::make($data['password']),
+                ]);
 
             if($data){
                 Session::flash('success','User registration successfully');
@@ -42,14 +49,4 @@ class RegisterController extends Controller
         }
     }
 
-    public function create(array $data)
-    {
-        return DB::table('users')->insert([
-           'first_name'=>$data['first_name'],
-           'last_name'=>$data['last_name'],
-           'username'=>$data['username'],
-           'email'=>$data['email'],
-           'password'=>Hash::make($data['password']),
-        ]);
-    }
 }
