@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -42,3 +43,10 @@ Route::post('register',[RegisterController::class,'register'])->name('register')
 Route::get('user-profile',[UserController::class,'profile'])->name('profile');
 Route::get('user-profile-edit',[UserController::class,'edit'])->name('edit.profile');
 Route::post('user-profile-update',[UserController::class,'update'])->name('update.profile');
+
+Route::prefix('posts')->group(function (){
+        Route::post('/',[PostController::class,'store'])->name('post.store');
+        Route::get('/single/{id}',[PostController::class,'singlePostView'])->name('post.single');
+        Route::get('/edit',[PostController::class,'edit'])->name('post.edit');
+        Route::get('/delete',[PostController::class,'destroy'])->name('post.delete');
+});

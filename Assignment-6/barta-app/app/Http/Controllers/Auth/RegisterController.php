@@ -5,11 +5,9 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterUserRequest;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
@@ -21,20 +19,16 @@ class RegisterController extends Controller
     public function register(RegisterUserRequest $request)
     {
         try {
+            $this->authorize('create','');
             $validator = $request->validated();
-
-            if ($validator->fails()) {
-                return redirect()->back()->withErrors($validator)->withInput();
-            }
-
-            $user_data = $request->safe()->only(['first_name','last_name','username','email','password']);
-            
             $data = DB::table('users')->insert([
-                   'first_name'=>$data['first_name'],
-                   'last_name'=>$data['last_name'],
-                   'username'=>$data['username'],
-                   'email'=>$data['email'],
-                   'password'=>Hash::make($data['password']),
+                   'first_name'=> $validator['first_name'],
+                   'last_name'=> $validator['last_name'],
+                   'username'=> $validator['username'],
+                   'email'=> $validator['email'],
+                   'password'=> Hash::make($validator['password']),
+                   'created_at'=> now(),
+                   'updated_at'=> now(),
                 ]);
 
             if($data){
