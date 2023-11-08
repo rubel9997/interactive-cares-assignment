@@ -104,7 +104,7 @@ class="bg-white shadow">
                     aria-labelledby="user-menu-button"
                     tabindex="-1">
                     <a
-                        href="{{route('profile')}}"
+                        href="{{route('profile',Auth::id())}}"
                         class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                         role="menuitem"
                         tabindex="-1"
@@ -118,6 +118,14 @@ class="bg-white shadow">
                         tabindex="-1"
                         id="user-menu-item-1"
                     >Edit Profile</a
+                    >
+                    <a
+                        href="{{route('change.password')}}"
+                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        role="menuitem"
+                        tabindex="-1"
+                        id="user-menu-item-1"
+                    >Change Password</a
                     >
                     <a
                         href="{{route('logout')}}"

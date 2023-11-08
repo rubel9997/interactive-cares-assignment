@@ -13,18 +13,10 @@ class DashboardController extends Controller
         if(Auth::check()){
 
             $auth_user = Auth::user();
-            $posts = DB::table('posts')->select(
-                'users.id',
-                        'users.first_name',
-                        'users.last_name',
-                        'users.username',
-                        'users.email',
-                        'posts.id',
-                        'posts.description',
-                        'posts.created_at',
-                        'posts.updated_at')
-                    ->join('users', 'posts.user_id', '=', 'users.id')
-                    ->get();
+            $posts = DB::table('posts')->select('users.*','posts.*','posts.created_at as post_created_at')
+                ->join('users', 'posts.user_id', '=', 'users.id')
+                ->orderBy('posts.created_at', 'desc')
+                ->get();
             return view('dashboard',['posts'=>$posts,'auth_user'=>$auth_user]);
         }
         return redirect()->route('login-form')->with('error','You have login first');

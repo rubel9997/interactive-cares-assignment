@@ -12,10 +12,17 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-    public function profile()
+    public function profile(Request $request)
     {
-        $data = DB::table('users')->where('id',Auth::id())->first();
-        return view('user.profile',['data'=>$data]);
+        $user = DB::table('users')->where('id',$request->id)->first();
+
+        $posts = DB::table('posts')->select('users.*','posts.*','posts.created_at as post_created_at')
+                    ->join('users','posts.user_id','=','users.id')
+                    ->where('user_id',$user->id)
+                    ->orderBy('posts.created_at',"desc")
+                    ->get();
+
+        return view('user.profile',['posts'=>$posts,'user'=>$user]);
     }
 
     public function edit(Request $request)
@@ -61,4 +68,40 @@ class UserController extends Controller
             return redirect()->back()->with('error',$exception->getMessage());
         }
     }
+
+
+    public function changePassword()
+    {
+        return view('user.change-password');
+    }
+
+
+    public function passwordUpdate(Request $request)
+    {
+        $auth_user = Auth::user();
+
+        if(Hash::check($request->input('current_password'),$auth_user->password)){
+
+           $validate = $request->validate([
+               'new_password' => 'required|min:6|max:15',
+               'confirm_password' => 'required|same:new_password',
+           ]);
+
+           if(Hash::check($request->input('new_password'),$auth_user->password)) {
+               Session::flash('error','New Password can not same the current password!');
+               return back();
+           }
+
+           DB::table('users')->where('id',Auth::id())->update(['password'=>Hash::make($validate['new_password'])]);
+
+           Session::flash('success', 'Password updated successfully');
+           return redirect()->route('profile');
+       }
+       else{
+           Session::flash('error','Current password does not match our records!');
+           return back();
+       }
+    }
+
+
 }

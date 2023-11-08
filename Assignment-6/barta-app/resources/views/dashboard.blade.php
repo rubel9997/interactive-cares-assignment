@@ -31,7 +31,7 @@
                   name="description"
                   rows="2"
                   required
-                  placeholder="What's going on, {{ $auth_user->first_name}}?"></textarea>
+                  placeholder="What's going on, {{ Auth::user()->first_name }}?"></textarea>
                     </div>
                 </div>
             </div>
@@ -132,7 +132,6 @@
             class="space-y-6">
             <!-- Barta Card -->
             @foreach($posts as $data)
-{{--                @dd($item->username)--}}
                 <article
                     class="bg-white border-2 border-black rounded-lg shadow mx-auto max-w-none px-4 py-5 sm:px-6">
                     <!-- Barta Card Top -->
@@ -151,13 +150,12 @@
                                 <!-- User Info -->
                                 <div class="text-gray-900 flex flex-col min-w-0 flex-1">
                                     <a
-                                        href="{{route('profile')}}"
+                                        href="{{route('profile',$data->user_id)}}"
                                         class="hover:underline font-semibold line-clamp-1">
                                         {{$data->first_name .' '.$data->last_name}}
                                     </a>
-
                                     <a
-                                        href="{{route('profile')}}"
+                                        href="{{route('profile',$data->user_id)}}"
                                         class="hover:underline text-sm text-gray-500 line-clamp-1">
                                         {{'@'.$data->username}}
                                     </a>
@@ -185,6 +183,8 @@
                                             </svg>
                                         </button>
                                     </div>
+
+                                    @if(\Auth::user()->id == $data->user_id)
                                     <!-- Dropdown menu -->
                                     <div
                                         x-show="open"
@@ -195,24 +195,21 @@
                                         aria-labelledby="user-menu-button"
                                         tabindex="-1">
                                         <a
-                                            href="{{route('post.edit')}}"
+                                            href="{{route('post.edit',$data->uuid)}}"
                                             class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                             role="menuitem"
                                             tabindex="-1"
                                             id="user-menu-item-0"
                                         >Edit</a
                                         >
-                                        <a
-                                            href="{{route('post.delete')}}"
-                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                            role="menuitem"
-                                            tabindex="-1"
-                                            id="user-menu-item-1"
-                                        >Delete</a
-                                        >
+                                        <form id="delete-post-form-{{ $data->id }}" action="{{ route('post.delete', $data->id) }}" method="post">
+                                            @csrf
+                                            @method('delete')
+                                            <a href="javascript:void(0)" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="user-menu-item-1" onclick="confirmDelete({{ $data->id }})">Delete</a>
+                                        </form>
                                     </div>
+                                    @endif
                                 </div>
-
                             </div>
                             <!-- /Card Action Dropdown -->
                         </div>
@@ -226,26 +223,12 @@
                     </div>
                     <!-- Date Created & View Stat -->
                     <div class="flex items-center gap-2 text-gray-500 text-xs my-2">
-                        @php
-                            $timestamp = strtotime('2023-11-07 18:15:23');
-                            $currentTimestamp = time();
-                            $timeDifference = $currentTimestamp - $timestamp;
-                            $minutesAgo = floor($timeDifference / 60);
-
-                            if ($minutesAgo < 1) {
-                            $result = "Just now";
-                            } elseif ($minutesAgo == 1) {
-                            $result = "1 minute ago";
-                            } else {
-                            $result = $minutesAgo . " minutes ago";
-                            }
-                        @endphp
 
                         <span class="">
-                            {{$result}}
+                           {{\App\Helper\Helper::postCreateTime($data->post_created_at)}}
                         </span>
-                        <span class="">•</span>
-                        <span>{{$view_count ?? '0'}} views</span>
+                        <span class=""></span>
+                        <span>  {{$data->view_count}} views</span>
                     </div>
 
                     <!-- Barta Card Bottom -->
@@ -256,22 +239,29 @@
                                 <!-- Heart Button -->
                                 <button
                                     type="button"
-                                    class="-m-2 flex gap-2 text-xs items-center rounded-full p-2 text-gray-600 hover:text-gray-800">
+                                    data-id = "{{$data->id}}"
+                                    data-user_id = "{{Auth::id()}}"
+                                    class="-m-2 flex gap-2 text-xs items-center rounded-full p-2 text-gray-600 hover:text-gray-800 react">
                                     <span class="sr-only">Like</span>
+                                    @php
+                                        $react_check = \App\Helper\Helper::reactCheck($data->id);
+                                        $react_count = \App\Helper\Helper::reactCount($data->id);
+                                    @endphp
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
+                                        fill="{{isset($react_check->react_yn) && $react_check->react_yn  === "Y" ? 'currentColor': 'none'}}"
                                         viewBox="0 0 24 24"
                                         stroke-width="2"
                                         stroke="currentColor"
-                                        class="w-5 h-5">
+                                        class="w-5 h-5 react-svg-{{$data->id}}"
+                                    >
                                         <path
                                             stroke-linecap="round"
                                             stroke-linejoin="round"
-                                            d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-                                    </svg>
+                                            d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+                                        />
 
-                                    <p>36</p>
+                                    <p class="react_count">{{$react_count ?? '0'}}</p>
                                 </button>
                                 <!-- /Heart Button -->
 
@@ -329,4 +319,50 @@
         </section>
         <!-- /Newsfeed -->
     </main>
+@endsection
+@section('script')
+    <script>
+        function confirmDelete(id) {
+            if (confirm('Are you sure you want to remove the post?')) {
+                document.getElementById('delete-post-form-' + id).submit();
+            }
+        }
+    </script>
+    <script>
+        $(document).ready(function (){
+            $('.react').on('click',function (e){
+                e.preventDefault();
+
+                let post_id = $(this).data('id');
+                let user_id = $(this).data('user_id');
+
+                const svgElement = $('.react-svg-' + post_id);
+                //const reactCountElement = $('.react_count');
+
+                let csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+                $.ajax({
+                    url:'{{route('post.react')}}',
+                    method:'POST',
+                    data:{post_id:post_id,user_id:user_id},
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    success:function (response){
+                        // console.log(response);
+                        if (response.react.react_yn === 'Y') {
+                            svgElement.attr('fill', 'currentColor');
+                           // reactCountElement.text(parseInt(reactCountElement.text()) + 1);
+                        } else {
+                            svgElement.attr('fill', 'none');
+                           // reactCountElement.text(parseInt(reactCountElement.text()) - 1);
+                        }
+                    },
+                    error:function (){
+
+                    }
+                })
+            })
+        })
+    </script>
 @endsection
