@@ -19,7 +19,7 @@ class RegisterController extends Controller
     public function register(RegisterUserRequest $request)
     {
         try {
-            $this->authorize('create','');
+
             $validator = $request->validated();
             $data = DB::table('users')->insert([
                    'first_name'=> $validator['first_name'],
