@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\CustomAuth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginUserRequest;
@@ -13,7 +13,7 @@ class LoginController extends Controller
 {
     public function loginForm()
     {
-        return view('auth.login');
+        return view('custom-auth.login');
     }
 
     public function login(LoginUserRequest $request)

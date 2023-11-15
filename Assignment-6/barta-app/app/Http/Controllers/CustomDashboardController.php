@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class DashboardController extends Controller
+class CustomDashboardController extends Controller
 {
     public function dashboard()
     {
@@ -17,7 +17,7 @@ class DashboardController extends Controller
                 ->join('users', 'posts.user_id', '=', 'users.id')
                 ->orderBy('posts.created_at', 'desc')
                 ->get();
-            return view('dashboard',['posts'=>$posts,'auth_user'=>$auth_user]);
+            return view('custom-dashboard',['posts'=>$posts,'auth_user'=>$auth_user]);
         }
         return redirect()->route('login-form')->with('error','You have login first');
     }

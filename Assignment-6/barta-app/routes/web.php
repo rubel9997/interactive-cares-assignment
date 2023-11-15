@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CustomAuth\LoginController;
+use App\Http\Controllers\CustomAuth\RegisterController;
+use App\Http\Controllers\CustomDashboardController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 
 
 //Dashboard route
-Route::get('/dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
+Route::get('/dashboard',[CustomDashboardController::class,'dashboard'])->name('dashboard');
 
 //login and register route
 Route::get('/',[LoginController::class,'loginForm'])->name('login-form');

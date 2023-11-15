@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('custom-layout.app')
 
 @section('title','Edit Profile')
 

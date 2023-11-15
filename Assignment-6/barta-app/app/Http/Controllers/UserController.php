@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserUpdateRequest;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,23 +32,16 @@ class UserController extends Controller
         return view('user.edit',['data'=>$data]);
     }
 
-    public function update(Request $request)
+    public function update(UserUpdateRequest $request)
     {
         try{
-            $validator = Validator::make($request->all(), [
-                'first_name' => 'required',
-                'last_name' => 'required',
-                'password' => 'nullable|min:6',
-            ]);
 
-            if ($validator->fails()) {
-                return redirect()->back()->withErrors($validator)->withInput();
-            }
+            $validator = $request->validated();
 
             $user_data = [
-                'first_name'=>$request->first_name,
-                'last_name'=>$request->last_name,
-                'bio'=>$request->bio,
+                'first_name'=> $validator['first_name'],
+                'last_name'=> $validator['last_name'],
+                'bio'=> $validator['bio'],
             ];
 
             if ($request->has('password') && !empty($request->input('password'))) {
@@ -59,9 +53,9 @@ class UserController extends Controller
 
             if($data){
                 Session::flash('success','Your profile updated successfully');
-                return redirect()->route('profile');
+                return redirect()->route('profile',Auth::id());
             }else{
-                return redirect()->route('profile');
+                return redirect()->route('profile',Auth::id());
             }
 
         }catch (Exception $exception){

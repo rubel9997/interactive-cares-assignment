@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\CustomAuth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterUserRequest;
@@ -13,7 +13,7 @@ class RegisterController extends Controller
 {
     public function registerForm()
     {
-        return view('auth.register');
+        return view('custom-auth.register');
     }
 
     public function register(RegisterUserRequest $request)
