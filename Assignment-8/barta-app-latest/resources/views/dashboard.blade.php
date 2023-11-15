@@ -151,12 +151,12 @@
                                 <!-- User Info -->
                                 <div class="text-gray-900 flex flex-col min-w-0 flex-1">
                                     <a
-                                        href="{{route('profile',$data->user_id)}}"
+                                        href="{{route('profile',$data->username)}}"
                                         class="hover:underline font-semibold line-clamp-1">
                                         {{$data->first_name .' '.$data->last_name}}
                                     </a>
                                     <a
-                                        href="{{route('profile',$data->user_id)}}"
+                                        href="{{route('profile',$data->username)}}"
                                         class="hover:underline text-sm text-gray-500 line-clamp-1">
                                         {{'@'.$data->username}}
                                     </a>

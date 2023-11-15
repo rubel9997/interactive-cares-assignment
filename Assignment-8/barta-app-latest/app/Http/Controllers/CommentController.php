@@ -12,19 +12,26 @@ class CommentController extends Controller
 {
     public function store(Request $request)
     {
-        //dd($request->all());
+       $uuid = str::uuid();
 
-        $uuid = str::uuid();
-       $comment = DB::table('comments')->updateOrInsert(
-           ['id'=>$request->comment_id,'post_id'=>$request->post_id],
-           [
-            'user_id' => Auth::id(),
-            'uuid' => $uuid,
-            'post_id' => $request->post_id,
-            'comment' => $request->comment,
-            'created_at' => now(),
-            'updated_at' => now(),
-       ]);
+       if($request->comment_id){
+           $comment = DB::table('comments')->where('id',$request->comment_id)->update([
+               'uuid' => $uuid,
+               'user_id' => Auth::id(),
+               'post_id' => $request->post_id,
+               'comment' => $request->comment,
+               'updated_at' => now(),
+           ]);
+       }else{
+           $comment = DB::table('comments')->insert([
+               'uuid' => $uuid,
+               'user_id' => Auth::id(),
+               'post_id' => $request->post_id,
+               'comment' => $request->comment,
+               'created_at' => now(),
+               'updated_at' => now(),
+           ]);
+       }
 
         if($comment){
             Session::flash('success','Comment published successfully!');

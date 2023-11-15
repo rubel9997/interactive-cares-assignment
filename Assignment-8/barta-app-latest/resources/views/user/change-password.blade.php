@@ -9,7 +9,7 @@
 
         <form action="{{route('password.update')}}" method="post" enctype="multipart/form-data">
             @csrf
-            @method('patch')
+            @method('put')
             <div class="space-y-12">
                 <div class=" border-gray-900/10 pb-12">
                     <h2 class="text-xl font-semibold leading-7 text-gray-900">
@@ -19,11 +19,13 @@
 
                         <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                             <div class="col-span-full">
-                                <label
-                                    for="current_password"
-                                    class="block text-sm font-medium leading-6 text-gray-900"
-                                >Current Password</label
-                                >
+                                <div class="flex items-center justify-between">
+                                    <label
+                                        for="password"
+                                        class="block text-sm font-medium leading-6 text-gray-900"
+                                    >Current Password</label
+                                    >
+                                </div>
                                 <div class="mt-2">
                                     <input
                                         type="password"

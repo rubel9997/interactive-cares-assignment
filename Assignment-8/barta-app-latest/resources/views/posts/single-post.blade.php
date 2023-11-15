@@ -34,12 +34,12 @@ $post_comments = \App\Helper\Helper::postComment($data->id)
                                 <!-- User Info -->
                                 <div class="text-gray-900 flex flex-col min-w-0 flex-1">
                                     <a
-                                        href="{{route('profile',$data->user_id)}}"
+                                        href="{{route('profile',$data->username)}}"
                                         class="hover:underline font-semibold line-clamp-1">
                                         {{$data->first_name .' '.$data->last_name}}
                                     </a>
                                     <a
-                                        href="{{route('profile',$data->user_id)}}"
+                                        href="{{route('profile',$data->username)}}"
                                         class="hover:underline text-sm text-gray-500 line-clamp-1">
                                         {{'@'.$data->username}}
                                     </a>
@@ -264,11 +264,11 @@ $post_comments = \App\Helper\Helper::postComment($data->id)
                                     <div class="flex items-center space-x-3">
                                         <!-- User Info -->
                                         <div class="text-gray-900 flex flex-col min-w-0 flex-1">
-                                            <a  href="{{route('profile',$data->user_id)}}" class="hover:underline font-semibold line-clamp-1">
+                                            <a  href="{{route('profile',$comment->username)}}" class="hover:underline font-semibold line-clamp-1">
                                                 {{$comment->first_name.' '.$comment->last_name}}
                                             </a>
 
-                                            <a  href="{{route('profile',$data->user_id)}}" class="hover:underline text-sm text-gray-500 line-clamp-1">
+                                            <a  href="{{route('profile',$comment->username)}}" class="hover:underline text-sm text-gray-500 line-clamp-1">
                                                 {{'@'.$comment->username}}
                                             </a>
                                         </div>

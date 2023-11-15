@@ -20,6 +20,6 @@ class CustomDashboardController extends Controller
 
             return view('dashboard',['posts'=>$posts,'auth_user'=>$auth_user]);
         }
-        return redirect()->route('login-form')->with('error','You have login first');
+        return redirect()->route('login')->with('error','You have login first');
     }
 }

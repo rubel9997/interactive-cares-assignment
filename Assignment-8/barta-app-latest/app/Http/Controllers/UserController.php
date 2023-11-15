@@ -15,7 +15,7 @@ class UserController extends Controller
 {
     public function profile(Request $request)
     {
-        $user = DB::table('users')->where('id',$request->id)->first();
+        $user = DB::table('users')->where('username',$request->username)->first();
 
         $posts = DB::table('posts')->select('users.*','posts.*','posts.created_at as post_created_at')
                     ->join('users','posts.user_id','=','users.id')
@@ -35,9 +35,8 @@ class UserController extends Controller
     public function update(UserUpdateRequest $request)
     {
         try{
-
             $validator = $request->validated();
-
+            $auth_user = Auth::user();
             $user_data = [
                 'first_name'=> $validator['first_name'],
                 'last_name'=> $validator['last_name'],
@@ -48,14 +47,13 @@ class UserController extends Controller
                 $data['password'] = Hash::make($request->input('password'));
             }
 
-
-            $data = DB::table('users')->where('id',Auth::id())->update($user_data);
+            $data = DB::table('users')->where('id',$auth_user->id)->update($user_data);
 
             if($data){
                 Session::flash('success','Your profile updated successfully');
-                return redirect()->route('profile',Auth::id());
+                return redirect()->route('profile',$auth_user->username);
             }else{
-                return redirect()->route('profile',Auth::id());
+                return redirect()->route('profile',$auth_user->username);
             }
 
         }catch (Exception $exception){
@@ -72,8 +70,8 @@ class UserController extends Controller
 
     public function passwordUpdate(Request $request)
     {
-        $auth_user = Auth::user();
 
+        $auth_user = Auth::user();
         if(Hash::check($request->input('current_password'),$auth_user->password)){
 
            $validate = $request->validate([
@@ -89,7 +87,7 @@ class UserController extends Controller
            DB::table('users')->where('id',Auth::id())->update(['password'=>Hash::make($validate['new_password'])]);
 
            Session::flash('success', 'Password updated successfully');
-           return redirect()->route('profile');
+           return redirect()->route('profile',$auth_user->username);
        }
        else{
            Session::flash('error','Current password does not match our records!');

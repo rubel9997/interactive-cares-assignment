@@ -4,62 +4,38 @@ namespace App\Http\Controllers;
 
 use App\Models\React;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ReactController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function react(Request $request)
     {
-        //
-    }
+        $post_id = $request->post_id;
+        $user_id = $request->user_id;
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+        $react = DB::table('reacts')->where('user_id',$user_id)->where('post_id',$post_id)->first();
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        if($react != null){
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(React $react)
-    {
-        //
-    }
+            DB::table('reacts')->where('id',$react->id)->update([
+                'react_yn'=> isset($react->react_yn) && $react->react_yn == 'Y' ? "N" : "Y",
+                'updated_at'=> now()
+            ]);
+        }
+        else{
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(React $react)
-    {
-        //
-    }
+            DB::table('reacts')->insert([
+                'user_id'=> $user_id,
+                'post_id'=> $post_id,
+                'react_yn'=> 'Y',
+                'created_at'=> now(),
+            ]);
+        }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, React $react)
-    {
-        //
-    }
+        $react = DB::table('reacts')->where('user_id',$user_id)->where('post_id',$post_id)->first();
+        $react_count = DB::table('reacts')->where('post_id',$post_id)->where('react_yn','Y')->count();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(React $react)
-    {
-        //
+        return response()->json(['react'=>$react,'react_count' => $react_count]);
+
     }
 }
