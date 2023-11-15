@@ -18,6 +18,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'uuid',
         'first_name',
         'last_name',
         'username',
@@ -25,8 +26,6 @@ class User extends Authenticatable
         'password',
         'bio',
     ];
-
-    protected $appends =['full_name'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -47,5 +46,4 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-
 }
