@@ -49,17 +49,17 @@
                     <label
                         for="email"
                         class="block text-sm font-medium leading-6 text-gray-900"
-                    >Email address</label
+                    >Email / Username</label
                     >
                     <div class="mt-2">
                         <input
                             id="email"
-                            name="email"
-                            type="email"
+                            name="login"
+                            type="text"
                             autocomplete="email"
                             placeholder="bruce@wayne.com"
                             required
-                            value="{{ old('email') }}"
+                            value="{{ old('login') }}"
                             class="block w-full rounded-md border-0 p-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black sm:text-sm sm:leading-6" />
                     </div>
                     @error('email')
@@ -96,6 +96,10 @@
                     @error('password')
                     <span class="mt-1 text-red-700 text-sm">{{ $message }}</span>
                     @enderror
+                </div>
+                <div class="">
+                    <input type="checkbox" name="remember" value="1" {{ old('remember') ? 'checked':''  }} id="remember">
+                    <label for="remember">Remember Me</label>
                 </div>
 
                 <div>

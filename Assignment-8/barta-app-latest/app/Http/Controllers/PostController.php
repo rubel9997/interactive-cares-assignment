@@ -40,26 +40,26 @@ class PostController extends Controller
 
     public function singlePostView(Request $request)
     {
-
-        $user = DB::table('view_counts')->where('user_id',Auth::id())->where('post_id',$request->id)->exists();
+        $post = DB::table('posts')->where('uuid',$request->uuid)->first();
+        $user = DB::table('view_counts')->where('user_id',Auth::id())->where('post_id',$post->id)->exists();
 
         if(!$user){
             $view =  DB::table('view_counts')->insert([
                 'user_id'=>Auth::id(),
-                'post_id'=>$request->id,
+                'post_id'=>$post->id,
                 'created_at'=>now(),
                 'updated_at'=>now(),
             ]);
 
             if($view){
-                $view_count = DB::table('view_counts')->where('post_id',$request->id)->count();
-                DB::table('posts')->where('id',$request->id)->update(['view_count'=>$view_count]);
+                $view_count = DB::table('view_counts')->where('post_id',$post->id)->count();
+                DB::table('posts')->where('id',$post->id)->update(['view_count'=>$view_count]);
             }
         }
 
         $post = DB::table('posts')->select('users.*','posts.*','posts.created_at as post_created_at')
             ->join('users', 'posts.user_id', '=', 'users.id')
-            ->where('posts.id',$request->id)
+            ->where('posts.id',$post->id)
             ->first();
 
         return view('posts.single-post',['data'=>$post]);

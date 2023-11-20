@@ -218,7 +218,7 @@
 
                     <!-- Content -->
                     <div class="py-4 text-gray-700 font-normal">
-                        <a href="{{route('post.single',$data->id)}}">
+                        <a href="{{route('post.single',$data->uuid)}}">
                             <p>{{$data->description ?? ''}}</p>
                         </a>
                     </div>

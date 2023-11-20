@@ -34,14 +34,14 @@ Route::middleware('auth')->group(function () {
     Route::post('profile-update',[UserController::class,'update'])->name('update.profile');
 
     Route::post('post/store',[PostController::class,'store'])->name('post.store');
-    Route::get('post/status/{id}',[PostController::class,'singlePostView'])->name('post.single');
+    Route::get('post/status/{uuid}',[PostController::class,'singlePostView'])->name('post.single');
     Route::get('post/edit/{uuid}',[PostController::class,'edit'])->name('post.edit');
     Route::put('post/update',[PostController::class,'update'])->name('post.update');
     Route::delete('post/delete/{id}',[PostController::class,'destroy'])->name('post.delete');
     Route::post('react',[ReactController::class,'react'])->name('post.react');
 
     Route::post('/comment/store',[CommentController::class,'store'])->name('comment.store');
-    Route::get('/comment/{post_id}/edit/{comment_id}',[CommentController::class,'edit'])->name('comment.edit');
+    Route::get('/comment/{post_uuid}/edit/{comment_uuid}',[CommentController::class,'edit'])->name('comment.edit');
     Route::delete('comment/delete/{comment_id}',[CommentController::class,'destroy'])->name('comment.delete');
 
 });

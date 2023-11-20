@@ -85,8 +85,9 @@ class Helper{
 
     public static function postComment($post_id)
     {
-        $comments = DB::table('comments')->select('users.*','comments.*','comments.created_at as comment_created_at')
+        $comments = DB::table('comments')->select('users.*','posts.*','posts.uuid as post_uuid','comments.*','comments.uuid as comment_uuid','comments.created_at as comment_created_at')
             ->join('users','comments.user_id','=','users.id')
+            ->join('posts','comments.post_id','=','posts.id')
             ->where('post_id',$post_id)
             ->orderBy('comments.created_at','desc')
             ->get();

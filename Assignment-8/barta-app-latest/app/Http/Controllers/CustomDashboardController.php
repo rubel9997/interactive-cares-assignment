@@ -16,6 +16,7 @@ class CustomDashboardController extends Controller
             $posts = DB::table('posts')->select('users.*','posts.*','posts.created_at as post_created_at')
                 ->join('users', 'posts.user_id', '=', 'users.id')
                 ->orderBy('posts.created_at', 'desc')
+//                ->limit(20)
                 ->get();
 
             return view('dashboard',['posts'=>$posts,'auth_user'=>$auth_user]);
