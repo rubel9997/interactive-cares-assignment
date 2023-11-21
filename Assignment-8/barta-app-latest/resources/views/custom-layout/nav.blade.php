@@ -9,7 +9,7 @@ class="bg-white shadow">
                     <h2 class="font-bold text-2xl">Barta</h2>
                 </a>
             </div>
-{{--            <div class="hidden sm:ml-6 sm:flex sm:space-x-8">--}}
+            {{--            <div class="hidden sm:ml-6 sm:flex sm:space-x-8">--}}
 {{--                <!-- Current: "border-gray-800 text-gray-900 font-semibold", Default: "border-transparent text-gray-600 hover:border-gray-300 hover:text-gray-800" -->--}}
 {{--                <a--}}
 {{--                    href="#"--}}
@@ -28,6 +28,9 @@ class="bg-white shadow">
 {{--                >--}}
 {{--            </div>--}}
         </div>
+        <form action="" method="POST" class="flex items-center">
+            <input type="text" placeholder="Search..." class="border-2 border-gray-300 bg-white h-10 px-5 pr-10 rounded-full text-sm focus:outline-none">
+        </form>
         <div class="hidden sm:ml-6 sm:flex gap-2 sm:items-center">
             <!-- This Button Should Be Hidden on Mobile Devices -->
 {{--            <button--}}

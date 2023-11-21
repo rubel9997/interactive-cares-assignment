@@ -101,8 +101,9 @@ $post_comments = \App\Helper\Helper::postComment($data->id)
                     </header>
 
                     <!-- Content -->
-                    <div class="py-4 text-gray-700 font-normal">
-                        <p>{{$data->description ?? ''}}</p>
+                    <div class="py-4 text-gray-700 font-normal space-y-2">
+                        <img src="https://images.pexels.com/photos/6261178/pexels-photo-6261178.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1260&amp;h=750&amp;dpr=1" class="min-h-auto w-full rounded-lg object-cover max-h-64 md:max-h-72" alt="">
+                        <p class="mt-2">{{$data->description ?? ''}}</p>
                     </div>
                     <!-- Date Created & View Stat -->
                     <div class="flex items-center gap-2 text-gray-500 text-xs my-2">

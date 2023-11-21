@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PostStoreRequest;
+use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -16,14 +17,22 @@ class PostController extends Controller
         try {
             $data = $request->validated();
 
-            $uuid = Str::uuid();
+            $data['uuid'] = Str::uuid();
 
-            $post = DB::table('posts')->insert([
-                'user_id' => Auth::id(),
-                'uuid' => $uuid,
-                'description' => $data['description'],
-                'created_at' => now(),
-            ]);
+            $data['user_id'] = Auth::id();
+
+//            $post = DB::table('posts')->insert([
+//                'user_id' => Auth::id(),
+//                'uuid' => $uuid,
+//                'description' => $data['description'],
+//                'created_at' => now(),
+//            ]);
+
+            $post = Post::create($data);
+
+            if($request->has('picture')){
+                $post->addMediaFromRequest('picture')->toMediaCollection('post');
+            }
 
             if ($post) {
                 Session::flash('success', 'Post uploaded successfully!');
