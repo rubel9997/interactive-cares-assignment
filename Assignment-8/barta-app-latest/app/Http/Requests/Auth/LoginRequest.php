@@ -41,10 +41,10 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        $login_type = filter_var($this->input('login'), FILTER_VALIDATE_EMAIL ) ? 'email' : 'username';
+        $login_type = filter_var($this->input('login'), FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
         $this->merge([
-            $login_type => $this->input('login')
+            $login_type => $this->input('login'),
         ]);
 
         if (! Auth::attempt($this->only($login_type, 'password'), $this->boolean('remember'))) {

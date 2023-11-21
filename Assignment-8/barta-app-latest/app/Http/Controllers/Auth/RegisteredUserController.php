@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
@@ -38,11 +37,11 @@ class RegisteredUserController extends Controller
         $uuid = Str::uuid();
 
         $user = User::create([
-            'uuid'=> $uuid,
-            'first_name'=> $request->first_name,
-            'last_name'=> $request->last_name,
-            'username'=>$request->username,
-            'email'=> $request->email,
+            'uuid' => $uuid,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'username' => $request->username,
+            'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
 
@@ -51,11 +50,13 @@ class RegisteredUserController extends Controller
         // Auth::login($user);
         // return redirect(RouteServiceProvider::HOME);
 
-        if($user){
-            Session::flash('success','User registration successfully');
+        if ($user) {
+            Session::flash('success', 'User registration successfully');
+
             return redirect()->route('login');
-        }else{
-            Session::flash('error','Something went wrong!');
+        } else {
+            Session::flash('error', 'Something went wrong!');
+
             return redirect()->route('register');
         }
     }

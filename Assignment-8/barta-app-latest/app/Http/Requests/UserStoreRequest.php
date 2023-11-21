@@ -22,7 +22,7 @@ class UserStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'uuid'=> 'nullable',
+            'uuid' => 'nullable',
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
             'username' => 'required|max:255|unique:users',

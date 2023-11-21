@@ -69,18 +69,7 @@
 
                 <div>
                     <div class="flex items-center justify-between">
-                        <label
-                            for="password"
-                            class="block text-sm font-medium leading-6 text-gray-900"
-                        >Password</label
-                        >
-                        <div class="text-sm">
-                            <a
-                                href="{{route('password.request')}}"
-                                class="font-semibold text-black hover:text-black"
-                            >Forgot password?</a
-                            >
-                        </div>
+                        <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
                     </div>
                     <div class="mt-2">
                         <input
@@ -97,9 +86,18 @@
                     <span class="mt-1 text-red-700 text-sm">{{ $message }}</span>
                     @enderror
                 </div>
-                <div class="">
-                    <input type="checkbox" name="remember" value="1" {{ old('remember') ? 'checked':''  }} id="remember">
-                    <label for="remember">Remember Me</label>
+                <div class="flex justify-between">
+                    <div class="text-sm">
+                        <input type="checkbox" name="remember" value="1" {{ old('remember') ? 'checked':''  }} id="remember">
+                        <label for="remember">Remember Me</label>
+                    </div>
+                    <div class="text-sm">
+                        <a
+                            href="{{route('password.request')}}"
+                            class="font-semibold text-black hover:text-black"
+                        >Forgot password?</a
+                        >
+                    </div>
                 </div>
 
                 <div>

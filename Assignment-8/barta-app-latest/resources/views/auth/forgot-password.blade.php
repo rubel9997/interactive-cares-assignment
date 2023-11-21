@@ -17,6 +17,9 @@
                 action="{{route('password.email')}}"
                 method="POST">
                 @csrf
+                @if(session('status'))
+                    <p class="form-text text-green-700">We sent a code to reset your password to {{ session('status')['email'] }}</p>
+                @endif
                 <div>
                     <label
                         for="email"
