@@ -11,10 +11,10 @@ class Post extends Model implements HasMedia
 {
     use HasFactory,InteractsWithMedia;
 
-    protected $fillable = ['description','uuid','user_id'];
+    protected $fillable = ['description', 'uuid', 'user_id'];
 
     public function user()
     {
-        return $this->belongsTo(User::class,'user_id','id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }
