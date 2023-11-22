@@ -23,7 +23,6 @@ class PostStoreRequest extends FormRequest
     {
         return [
             'description' => 'required',
-            'photo' => 'image|mimes:jpeg,png,jpg',
         ];
     }
 }

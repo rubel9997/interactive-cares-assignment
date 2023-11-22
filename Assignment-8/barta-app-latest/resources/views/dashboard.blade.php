@@ -151,14 +151,14 @@
                                 <!-- User Info -->
                                 <div class="text-gray-900 flex flex-col min-w-0 flex-1">
                                     <a
-                                        href="{{route('profile',$data->user->username)}}"
+                                        href="{{route('profile',$data->username)}}"
                                         class="hover:underline font-semibold line-clamp-1">
-                                        {{$data->user->first_name .' '.$data->user->last_name}}
+                                        {{$data->first_name .' '.$data->last_name}}
                                     </a>
                                     <a
-                                        href="{{route('profile',$data->user->username)}}"
+                                        href="{{route('profile',$data->username)}}"
                                         class="hover:underline text-sm text-gray-500 line-clamp-1">
-                                        {{'@'.$data->user->username}}
+                                        {{'@'.$data->username}}
                                     </a>
                                 </div>
                                 <!-- /User Info -->
@@ -218,7 +218,6 @@
                     <!-- Content -->
                     <div class="py-4 text-gray-700 font-normal space-y-2">
                         <a href="{{route('post.single',$data->uuid)}}">
-                            <img src="{{$data->getFirstMediaUrl('picture')}}" class="min-h-auto w-full rounded-lg object-cover max-h-64 md:max-h-72" alt="">
                             <p class="mt-2">{{$data->description ?? ''}}</p>
                         </a>
                     </div>
