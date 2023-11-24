@@ -57,35 +57,8 @@ class Helper
         return $result;
     }
 
-    //    public static function viewCount($post_id)
-    //    {
-    //        return DB::table('view_counts')->where('post_id',$post_id)->count();
-    //    }
-
-    public static function postCount()
-    {
-        return DB::table('posts')->where('user_id', Auth::id())->count();
-    }
-
     public static function reactCheck($post_id)
     {
         return DB::table('reacts')->where('post_id', $post_id)->where('user_id', Auth::id())->first();
-    }
-
-    public static function reactCount($post_id)
-    {
-        return DB::table('reacts')->where('post_id', $post_id)->where('react_yn', 'Y')->count();
-    }
-
-    public static function postComment($post_id)
-    {
-        $comments = DB::table('comments')->select('users.*', 'posts.*', 'posts.uuid as post_uuid', 'comments.*', 'comments.uuid as comment_uuid', 'comments.created_at as comment_created_at')
-            ->join('users', 'comments.user_id', '=', 'users.id')
-            ->join('posts', 'comments.post_id', '=', 'posts.id')
-            ->where('post_id', $post_id)
-            ->orderBy('comments.created_at', 'desc')
-            ->get();
-
-        return $comments ?? 0;
     }
 }

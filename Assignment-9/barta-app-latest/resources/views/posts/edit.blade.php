@@ -14,7 +14,7 @@
             <!-- Create Post Card Top -->
             @csrf
             @method('PUT')
-            <input type="hidden" name="id" value="{{$data->id}}">
+            <input type="hidden" name="id" value="{{$post->id}}">
             <div>
                 <div class="flex items-start /space-x-3/">
                     <!-- User Avatar -->
@@ -33,7 +33,7 @@
                   name="description"
                   rows="2"
                   required
-                  placeholder="What's going on, {{ Auth::user()->first_name}}?">{{$data->description ?? ''}}</textarea>
+                  placeholder="What's going on, {{ $auth_user->first_name}}?">{{$post->description ?? ''}}</textarea>
                     </div>
                 </div>
             </div>

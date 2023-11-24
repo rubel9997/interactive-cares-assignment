@@ -18,10 +18,23 @@
                 <div class="flex items-start /space-x-3/">
                     <!-- User Avatar -->
                     <div class="flex-shrink-0">
-                        <img
-                            class="h-10 w-10 rounded-full object-cover"
-                            src="https://avatars.githubusercontent.com/u/831997"
-                            alt="Ahmed Shamim" />
+                        @if($auth_user->getFirstMediaUrl())
+                            <img
+                                class="h-10 w-10 rounded-full object-cover"
+                                src="{{$auth_user->getFirstMediaUrl()}}"
+                                alt="profile image" />
+                        @else
+                            <svg
+                                class="h-12 w-12 text-gray-300"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                aria-hidden="true">
+                                <path
+                                    fill-rule="evenodd"
+                                    d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        @endif
                     </div>
                     <!-- /User Avatar -->
 
@@ -32,7 +45,7 @@
                   name="description"
                   rows="2"
                   required
-                  placeholder="What's going on, {{ Auth::user()->first_name }}?"></textarea>
+                  placeholder="What's going on, {{ $auth_user->first_name }}?"></textarea>
                     </div>
                 </div>
             </div>
@@ -132,7 +145,7 @@
             id="newsfeed"
             class="space-y-6">
             <!-- Barta Card -->
-            @foreach($posts as $data)
+            @foreach($posts as $post)
                 <article
                     class="bg-white border-2 border-black rounded-lg shadow mx-auto max-w-none px-4 py-5 sm:px-6">
                     <!-- Barta Card Top -->
@@ -141,24 +154,39 @@
                             <div class="flex items-center space-x-3">
                                 <!-- User Avatar -->
                                 <div class="flex-shrink-0">
-                                    <img
-                                        class="h-10 w-10 rounded-full object-cover"
-                                        src="https://avatars.githubusercontent.com/u/61485238"
-                                        alt="Al Nahian" />
+                                    <a href="{{route('profile',$post->user->username)}}">
+                                        @if($post->user->getFirstMediaUrl())
+                                            <img
+                                                class="h-10 w-10 rounded-full object-cover"
+                                                src="{{$post->user->getFirstMediaUrl()}}"
+                                                alt="profile image" />
+                                        @else
+                                            <svg
+                                                class="h-12 w-12 text-gray-300"
+                                                viewBox="0 0 24 24"
+                                                fill="currentColor"
+                                                aria-hidden="true">
+                                                <path
+                                                    fill-rule="evenodd"
+                                                    d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
+                                                    clip-rule="evenodd" />
+                                            </svg>
+                                        @endif
+                                    </a>
                                 </div>
                                 <!-- /User Avatar -->
 
                                 <!-- User Info -->
                                 <div class="text-gray-900 flex flex-col min-w-0 flex-1">
                                     <a
-                                        href="{{route('profile',$data->user->username)}}"
+                                        href="{{route('profile',$post->user->username)}}"
                                         class="hover:underline font-semibold line-clamp-1">
-                                        {{$data->user->first_name .' '.$data->user->last_name}}
+                                        {{$post->user->first_name .' '.$post->user->last_name}}
                                     </a>
                                     <a
-                                        href="{{route('profile',$data->user->username)}}"
+                                        href="{{route('profile',$post->user->username)}}"
                                         class="hover:underline text-sm text-gray-500 line-clamp-1">
-                                        {{'@'.$data->user->username}}
+                                        {{'@'.$post->user->username}}
                                     </a>
                                 </div>
                                 <!-- /User Info -->
@@ -185,7 +213,7 @@
                                         </button>
                                     </div>
 
-                                @if(\Auth::user()->id == $data->user_id)
+                                @if(\Auth::user()->id == $post->user_id)
                                     <!-- Dropdown menu -->
                                         <div
                                             x-show="open"
@@ -196,17 +224,17 @@
                                             aria-labelledby="user-menu-button"
                                             tabindex="-1">
                                             <a
-                                                href="{{route('post.edit',$data->uuid)}}"
+                                                href="{{route('post.edit',$post->uuid)}}"
                                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                                 role="menuitem"
                                                 tabindex="-1"
                                                 id="user-menu-item-0"
                                             >Edit</a
                                             >
-                                            <form id="delete-post-form-{{ $data->id }}" action="{{ route('post.delete', $data->id) }}" method="post">
+                                            <form id="delete-post-form-{{ $post->id }}" action="{{ route('post.delete', $post->id) }}" method="post">
                                                 @csrf
                                                 @method('delete')
-                                                <a href="javascript:void(0)" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="user-menu-item-1" onclick="confirmDelete({{ $data->id }})">Delete</a>
+                                                <a href="javascript:void(0)" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="user-menu-item-1" onclick="confirmDelete({{ $post->id }})">Delete</a>
                                             </form>
                                         </div>
                                     @endif
@@ -217,19 +245,19 @@
                     </header>
                     <!-- Content -->
                     <div class="py-4 text-gray-700 font-normal space-y-2">
-                        <a href="{{route('post.single',$data->uuid)}}">
-                            <img src="{{$data->getFirstMediaUrl('picture')}}" class="min-h-auto w-full rounded-lg object-cover max-h-64 md:max-h-72" alt="">
-                            <p class="mt-2">{{$data->description ?? ''}}</p>
+                        <a href="{{route('post.single',$post->uuid)}}">
+                            <img src="{{ $post->getFirstMediaUrl() }}" class="min-h-auto w-full rounded-lg object-cover max-h-64 md:max-h-72" alt="">
+                            <p class="mt-2">{{$post->description ?? ''}}</p>
                         </a>
                     </div>
                     <!-- Date Created & View Stat -->
                     <div class="flex items-center gap-2 text-gray-500 text-xs my-2">
 
                         <span class="">
-                           {{\App\Helper\Helper::postCreateTime($data->post_created_at)}}
+                           {{\App\Helper\Helper::postCreateTime($post->created_at)}}
                         </span>
                         <span class=""></span>
-                        <span>  {{$data->view_count}} views</span>
+                        <span>  {{count($post->viewCounts)}} views</span>
                     </div>
 
                     <!-- Barta Card Bottom -->
@@ -237,25 +265,23 @@
                         <!-- Card Bottom Action Buttons -->
                         <div class="flex items-center justify-between">
                             <div class="flex gap-8 text-gray-600">
+                            @php
+                                $react_check = \App\Helper\Helper::reactCheck($post->id);
+                            @endphp
                                 <!-- Heart Button -->
                                 <button
                                     type="button"
-                                    data-id = "{{$data->id}}"
+                                    data-id = "{{$post->id}}"
                                     data-user_id = "{{Auth::id()}}"
-                                                                        data-react-count="{{$react_count ?? 0}}"
                                     class="-m-2 flex gap-2 text-xs items-center rounded-full p-2 text-gray-600 hover:text-gray-800 react">
                                     <span class="sr-only">Like</span>
-                                    @php
-                                        $react_check = \App\Helper\Helper::reactCheck($data->id);
-                                        $react_count = \App\Helper\Helper::reactCount($data->id);
-                                    @endphp
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         fill="{{isset($react_check->react_yn) && $react_check->react_yn  === "Y" ? 'currentColor': 'none'}}"
                                         viewBox="0 0 24 24"
                                         stroke-width="2"
                                         stroke="currentColor"
-                                        class="w-5 h-5 react-svg-{{$data->id}}"
+                                        class="w-5 h-5 react-svg-{{$post->id}}"
                                     >
                                         <path
                                             stroke-linecap="round"
@@ -263,7 +289,7 @@
                                             d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
                                     </svg>
 
-                                    <p class="react_count">{{$react_count ?? '0'}}</p>
+                                    <p class="react_count">{{count($post->reactCounts) ?? '0'}}</p>
                                 </button>
                                 <!-- /Heart Button -->
 
@@ -284,10 +310,7 @@
                                             stroke-linejoin="round"
                                             d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z" />
                                     </svg>
-                                    @php
-                                        $post_comments = \App\Helper\Helper::postComment($data->id)
-                                    @endphp
-                                    <p>{{ count($post_comments) }} </p>
+                                    <p>{{ count($post->comments) }} </p>
                                 </button>
                                 <!-- /Comment Button -->
                             </div>

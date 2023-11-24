@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PostStoreRequest;
 use App\Models\Post;
+use App\Models\ViewCount;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
@@ -21,17 +21,10 @@ class PostController extends Controller
 
             $data['user_id'] = Auth::id();
 
-            //            $post = DB::table('posts')->insert([
-            //                'user_id' => Auth::id(),
-            //                'uuid' => $uuid,
-            //                'description' => $data['description'],
-            //                'created_at' => now(),
-            //            ]);
-
             $post = Post::create($data);
 
             if ($request->has('picture')) {
-                $post->addMediaFromRequest('picture')->toMediaCollection('post');
+                $post->addMediaFromRequest('picture')->toMediaCollection();
             }
 
             if ($post) {
@@ -51,37 +44,34 @@ class PostController extends Controller
 
     public function singlePostView(Request $request)
     {
-        $post = DB::table('posts')->where('uuid', $request->uuid)->first();
-        $user = DB::table('view_counts')->where('user_id', Auth::id())->where('post_id', $post->id)->exists();
 
-        if (! $user) {
-            $view = DB::table('view_counts')->insert([
+        $post = Post::where('uuid', $request->uuid)->first();
+
+        $user_view_check = ViewCount::where('user_id', Auth::id())->where('post_id', $post->id)->exists();
+
+        if (! $user_view_check) {
+            $view = ViewCount::create([
                 'user_id' => Auth::id(),
                 'post_id' => $post->id,
-                'created_at' => now(),
-                'updated_at' => now(),
             ]);
 
             if ($view) {
-                $view_count = DB::table('view_counts')->where('post_id', $post->id)->count();
-                DB::table('posts')->where('id', $post->id)->update(['view_count' => $view_count]);
+                $view_count = ViewCount::where('post_id', $post->id)->count();
+                Post::where('id', $post->id)->update(['view_count' => $view_count]);
             }
         }
 
-        $post = DB::table('posts')->select('users.*', 'posts.*', 'posts.created_at as post_created_at')
-            ->join('users', 'posts.user_id', '=', 'users.id')
-            ->where('posts.id', $post->id)
-            ->first();
+        $post = Post::with(['user', 'comments', 'viewCounts', 'reactCounts'])->where('id', $post->id)->orderBy('created_at', 'desc')->first();
 
-        return view('posts.single-post', ['data' => $post]);
+        return view('posts.single-post', ['post' => $post]);
 
     }
 
     public function edit($uuid)
     {
-        $post = DB::table('posts')->where('uuid', $uuid)->first();
+        $post = Post::with(['user', 'comments', 'viewCounts'])->where('uuid', $uuid)->first();
 
-        return view('posts.edit', ['data' => $post]);
+        return view('posts.edit', ['post' => $post]);
     }
 
     public function update(PostStoreRequest $request)
@@ -89,10 +79,16 @@ class PostController extends Controller
         try {
             $data = $request->validated();
 
-            $post = DB::table('posts')->where('id', $request->id)->update([
+            $post = Post::find($request->id);
+
+            $post->update([
                 'description' => $data['description'],
-                'updated_at' => now(),
             ]);
+
+            if ($request->has('picture')) {
+                $post->clearMediaCollection();
+                $post->addMediaFromRequest('picture')->toMediaCollection();
+            }
 
             if ($post) {
                 Session::flash('success', 'Post updated successfully!');
@@ -111,25 +107,23 @@ class PostController extends Controller
 
     public function destroy($id)
     {
-        $post = DB::table('posts')->where('id', $id)->delete();
+        $post = Post::with(['comments', 'viewCounts'])->find($id);
 
-        if ($post) {
-
-            $comments = DB::table('comments')->where('post_id', $id)->get();
-
-            foreach ($comments as $comment) {
-                $comment->delete();
-            }
-
-            $view_count = DB::table('view_counts')->where('post_id', $id)->get();
-
-            foreach ($view_count as $view) {
-                $view->delete();
-            }
+        if ($post->hasMedia()) {
+            $post->clearMediaCollection();
         }
 
-        Session::flash('success', 'Post removed successfully!');
+        $status = $post->delete();
 
-        return redirect()->route('dashboard');
+        if ($status) {
+            Session::flash('success', 'Post removed successfully!');
+
+            return redirect()->route('dashboard');
+        } else {
+            Session::flash('error', 'Something  went wrong!');
+
+            return back();
+        }
+
     }
 }

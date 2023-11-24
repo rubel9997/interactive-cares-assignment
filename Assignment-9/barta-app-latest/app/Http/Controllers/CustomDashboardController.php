@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class CustomDashboardController extends Controller
 {
@@ -12,18 +13,26 @@ class CustomDashboardController extends Controller
     {
         if (Auth::check()) {
 
-            $auth_user = Auth::user();
-            //            $posts = DB::table('posts')->select('users.*', 'posts.*', 'posts.created_at as post_created_at')
-            //                ->join('users', 'posts.user_id', '=', 'users.id')
-            //                ->orderBy('posts.created_at', 'desc')
-            ////                ->limit(20)
-            //                ->get();
+            $posts = Post::with(['user', 'comments', 'viewCounts', 'reactCounts'])->latest()->get();
 
-            $posts = Post::with('user')->get();
-
-            return view('dashboard', ['posts' => $posts, 'auth_user' => $auth_user]);
+            return view('dashboard', ['posts' => $posts]);
         }
 
         return redirect()->route('login')->with('error', 'You have login first');
+    }
+
+    public function search(Request $request)
+    {
+        $data = User::with('posts')->whereHas('posts', function ($query) use ($request) {
+            $query->where('description', 'like', '%'.$request->search.'%');
+        })
+            ->orWhere(function ($query) use ($request) {
+                $query->where('first_name', 'like', '%'.$request->search.'%')
+                    ->orWhere('last_name', 'like', '%'.$request->search.'%')
+                    ->orWhere('username', 'like', '%'.$request->search.'%');
+            })
+            ->get();
+
+        return view('user.search', ['data' => $data]);
     }
 }

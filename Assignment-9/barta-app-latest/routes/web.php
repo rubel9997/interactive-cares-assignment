@@ -20,12 +20,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [AuthenticatedSessionController::class, 'create'])->name('login');
+Route::get('/', [AuthenticatedSessionController::class, 'create'])->name('login')->middleware('guest');
 
 //user route
 Route::middleware('auth')->group(function () {
 
     Route::get('/home', [CustomDashboardController::class, 'dashboard'])->name('dashboard');
+    Route::post('/user/search', [CustomDashboardController::class, 'search'])->name('user.search');
 
     Route::get('profile/{username}', [UserController::class, 'profile'])->name('profile');
     Route::get('profile-edit', [UserController::class, 'edit'])->name('edit.profile');
@@ -38,6 +39,7 @@ Route::middleware('auth')->group(function () {
     Route::get('post/edit/{uuid}', [PostController::class, 'edit'])->name('post.edit');
     Route::put('post/update', [PostController::class, 'update'])->name('post.update');
     Route::delete('post/delete/{id}', [PostController::class, 'destroy'])->name('post.delete');
+
     Route::post('react', [ReactController::class, 'react'])->name('post.react');
 
     Route::post('/comment/store', [CommentController::class, 'store'])->name('comment.store');
