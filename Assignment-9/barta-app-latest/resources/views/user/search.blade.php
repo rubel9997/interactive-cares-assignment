@@ -1,7 +1,7 @@
 
 @extends('custom-layout.app')
 
-@section('title','Search')
+@section('title','Search People')
 
 @section('content')
     <main
@@ -79,31 +79,31 @@
                                         </button>
                                     </div>
 
-                                @if(\Auth::user()->id == $user->id)
-                                    <!-- Dropdown menu -->
-                                        <div
-                                            x-show="open"
-                                            @click.away="open = false"
-                                            class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                                            role="menu"
-                                            aria-orientation="vertical"
-                                            aria-labelledby="user-menu-button"
-                                            tabindex="-1">
-                                            <a
-                                                href="{{route('post.edit',$user->uuid)}}"
-                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                role="menuitem"
-                                                tabindex="-1"
-                                                id="user-menu-item-0"
-                                            >Edit</a
-                                            >
-                                            <form id="delete-post-form-{{ $user->id }}" action="{{ route('post.delete', $user->id) }}" method="post">
-                                                @csrf
-                                                @method('delete')
-                                                <a href="javascript:void(0)" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="user-menu-item-1" onclick="confirmDelete({{ $user->id }})">Delete</a>
-                                            </form>
-                                        </div>
-                                    @endif
+{{--                                    @if(\Auth::user()->id == $user->id)--}}
+{{--                                    <!-- Dropdown menu -->--}}
+{{--                                        <div--}}
+{{--                                            x-show="open"--}}
+{{--                                            @click.away="open = false"--}}
+{{--                                            class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"--}}
+{{--                                            role="menu"--}}
+{{--                                            aria-orientation="vertical"--}}
+{{--                                            aria-labelledby="user-menu-button"--}}
+{{--                                            tabindex="-1">--}}
+{{--                                            <a--}}
+{{--                                                href="{{route('post.edit',$user->uuid)}}"--}}
+{{--                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"--}}
+{{--                                                role="menuitem"--}}
+{{--                                                tabindex="-1"--}}
+{{--                                                id="user-menu-item-0"--}}
+{{--                                            >Edit</a--}}
+{{--                                            >--}}
+{{--                                            <form id="delete-post-form-{{ $user->id }}" action="{{ route('post.delete', $user->id) }}" method="post">--}}
+{{--                                                @csrf--}}
+{{--                                                @method('delete')--}}
+{{--                                                <a href="javascript:void(0)" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="user-menu-item-1" onclick="confirmDelete({{ $user->id }})">Delete</a>--}}
+{{--                                            </form>--}}
+{{--                                        </div>--}}
+{{--                                    @endif--}}
                                 </div>
                             </div>
                             <!-- /Card Action Dropdown -->
