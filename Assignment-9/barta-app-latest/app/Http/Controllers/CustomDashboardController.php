@@ -23,16 +23,13 @@ class CustomDashboardController extends Controller
 
     public function search(Request $request)
     {
-        $data = User::with('posts')->whereHas('posts', function ($query) use ($request) {
-            $query->where('description', 'like', '%'.$request->search.'%');
-        })
-            ->orWhere(function ($query) use ($request) {
-                $query->where('first_name', 'like', '%'.$request->search.'%')
-                    ->orWhere('last_name', 'like', '%'.$request->search.'%')
-                    ->orWhere('username', 'like', '%'.$request->search.'%');
-            })
-            ->get();
+        $data = User::where(function ($query) use ($request) {
+            $query->where('first_name', 'like', '%'.$request->search.'%')
+                ->orWhere('last_name', 'like', '%'.$request->search.'%')
+                ->orWhere('username', 'like', '%'.$request->search.'%')
+                ->orWhere('email', 'like', '%'.$request->search.'%');
+        })->get();
 
-        return view('user.search', ['data' => $data]);
+        return view('user.search', ['data' => $data,'search' => $request->search]);
     }
 }

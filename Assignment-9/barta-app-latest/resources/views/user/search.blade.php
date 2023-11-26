@@ -11,6 +11,7 @@
             id="newsfeed"
             class="space-y-6">
             <!-- Barta Card -->
+            @if(filled($data))
             @foreach($data as $user)
                 <article
                     class="bg-white border-2 border-black rounded-lg shadow mx-auto max-w-none px-4 py-5 sm:px-6">
@@ -208,7 +209,12 @@
                     <!-- /Barta Card Bottom -->
                 </article>
         @endforeach
+            @else
         <!-- /Barta Card -->
+            <div class="">
+                <img src="{{asset('assets/logo/404.png')}}" alt="">
+            </div>
+            @endif
         </section>
         <!-- /Newsfeed -->
     </main>
