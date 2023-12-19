@@ -11,11 +11,6 @@ use Illuminate\Http\Response;
 class LoginController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->middleware(['guest']);
-    }
-
     /**
      * Handle the incoming request.
      */
@@ -29,6 +24,10 @@ class LoginController extends Controller
             ],Response::HTTP_UNAUTHORIZED);
         }
 
+        if (!$user->hasVerifiedEmail()) {
+            $user->email_verified_at = now();
+            $user->save();
+        }
 
         $token = $user->createToken('auth_token')->plainTextToken;
 

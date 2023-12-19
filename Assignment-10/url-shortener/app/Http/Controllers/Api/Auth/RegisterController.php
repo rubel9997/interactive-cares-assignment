@@ -4,17 +4,14 @@ namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
+use App\Mail\EmailVerification;
 use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class RegisterController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->middleware('guest');
-    }
 
     /**
      * Handle the incoming request.
@@ -25,6 +22,10 @@ class RegisterController extends Controller
         $validated['password'] = Hash::make($request->password);
 
         $user = User::create($validated);
+
+//        if($user){
+//            Mail::to($user)->send(new EmailVerification($user));
+//        }
 
         $token = $user->createToken('auth_token')->plainTextToken;
 

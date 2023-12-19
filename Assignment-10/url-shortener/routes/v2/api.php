@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\Api\DashboardController;
-use App\Http\Controllers\Api\UserController;
+
+use App\Http\Controllers\Api\V2\DashboardController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,9 +16,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+
+Route::prefix('v2')->group(function () {
+    Route::middleware(['auth:sanctum', 'verified','throttle:3000,1'])->group(function () {
+        Route::get('/visit-count/{shortener_url}', [DashboardController::class, 'visitCount'])->name('visit-count');
+    });
 });
 
-Route::get('user/show', UserController::class)->name('user.show');
-Route::get('dashboard', DashboardController::class)->name('dashboard');

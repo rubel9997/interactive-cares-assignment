@@ -15,12 +15,6 @@ use Illuminate\Support\Facades\URL;
 class PasswordResetController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->middleware('guest');
-    }
-
-
     public function sendResetLinkEmail(LinkEmailRequest $request)
     {
         $appUrl = env('APP_URL');

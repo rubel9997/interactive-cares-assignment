@@ -9,10 +9,6 @@ use Illuminate\Support\Facades\Mail;
 
 class EmailVerificationController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(['auth:sanctum']);
-    }
 
     public function sendEmail()
     {

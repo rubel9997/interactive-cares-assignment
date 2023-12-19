@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V2\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::get('{shortener_url}', [DashboardController::class,'visitCount'])->name('shortener-url');
