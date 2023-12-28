@@ -218,9 +218,11 @@
         {{--        load more button start--}}
 
         @if($canLoadMore)
-            <center>
-                <button wire:click="loadMore">Loading...</button>
-            </center>
+           <center>
+               <button wire:click="loadMore">
+                   <img class="w-full h-full" src="{{ asset('assets/logo/loader.gif') }}" alt="Loading...">
+               </button>
+           </center>
         @endif
 
         {{--        load more button end--}}
