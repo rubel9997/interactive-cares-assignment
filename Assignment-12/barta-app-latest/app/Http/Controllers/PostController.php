@@ -61,7 +61,7 @@ class PostController extends Controller
             }
         }
 
-        $post = Post::with(['user', 'comments', 'viewCounts', 'reactCounts'])->where('id', $post->id)->orderBy('created_at', 'desc')->first();
+        $post = Post::with(['user', 'comments', 'viewCounts'])->where('id', $post->id)->orderBy('created_at', 'desc')->first();
 
         return view('posts.single-post', ['post' => $post]);
 

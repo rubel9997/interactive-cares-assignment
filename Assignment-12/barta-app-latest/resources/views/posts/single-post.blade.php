@@ -273,7 +273,7 @@
                                         <div class="text-gray-900 flex flex-col min-w-0 flex-1">
 
                                             <a  href="{{route('profile',$comment->user->username)}}" class="hover:underline font-semibold line-clamp-1">
-                                                {{$comment->first_name.' '.$comment->user->last_name}}
+                                                {{$comment->user->full_name}}
                                             </a>
 
                                             <a  href="{{route('profile',$comment->user->username)}}" class="hover:underline text-sm text-gray-500 line-clamp-1">
@@ -319,7 +319,7 @@
 
                             <!-- Date Created -->
                             <div class="flex items-center gap-2 text-gray-500 text-xs">
-                                <span class="">{{\App\Helper\Helper::commentCreateTime($comment->created_at)}}</span>
+                                <span class="">{{$comment->created_at->diffForHumans()}}</span>
                             </div>
                         </div>
                     @endforeach

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use App\Models\Post;
+use App\Models\User;
+use App\Notifications\CommentAdd;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -15,7 +17,7 @@ class CommentController extends Controller
     {
         $uuid = str::uuid();
 
-        $post = Post::where('id', $request->post_id)->select('id', 'uuid')->first();
+        $post = Post::where('id', $request->post_id)->first();
 
         if ($request->comment_id) {
             $comment = Comment::where('id', $request->comment_id)->update([
@@ -28,16 +30,24 @@ class CommentController extends Controller
                 'post_id' => $post->id,
                 'comment' => $request->comment,
             ]);
+
+            if($comment){
+                $author = User::where('id',$post->user_id)->first();
+
+                $author->notify(new CommentAdd($author,$comment,$post));
+
+            }
         }
 
         if ($comment) {
+
             if ($request->comment_id) {
                 Session::flash('success', 'Comment updated successfully!');
             } else {
                 Session::flash('success', 'Comment published successfully!');
             }
 
-            return redirect()->route('post.single', $post->uuid);
+            return redirect()->back();
         } else {
             Session::flash('error', 'Something went wrong!');
 

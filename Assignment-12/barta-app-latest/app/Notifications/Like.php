@@ -42,7 +42,7 @@ class Like extends Notification
     {
         return (new MailMessage)
             ->greeting('Hello, '.$this->author->full_name)
-            ->line(auth()->user()->full_name.' likes your post.')
+            ->line(auth()->user()->full_name.' reacted your post.')
             ->action('View the post', route('post.single', $this->post->uuid))
             ->line('Thank you for using our application!');
     }

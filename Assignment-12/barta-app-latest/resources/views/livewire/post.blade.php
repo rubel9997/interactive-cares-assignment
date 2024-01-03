@@ -47,7 +47,7 @@
                                 <a
                                     href="{{route('profile',$post->user->username)}}"
                                     class="hover:underline font-semibold line-clamp-1">
-                                    {{$post->user->first_name .' '.$post->user->last_name}}
+                                    {{$post->user->full_name}}
                                 </a>
                                 <a
                                     href="{{route('profile',$post->user->username)}}"
@@ -116,9 +116,15 @@
                 <!-- Content -->
                 <div class="py-4 text-gray-700 font-normal space-y-2">
                     <a href="{{route('post.single',$post->uuid)}}">
-                        <img src="{{ $post->getFirstMediaUrl() }}"
-                             class="min-h-auto w-full rounded-lg object-cover max-h-64 md:max-h-72" alt="">
-                        <p class="mt-2">{{$post->description ?? ''}}</p>
+                        @if($post->getFirstMediaUrl())
+                        <img src="{{ $post->getFirstMediaUrl() }}" class="min-h-auto w-full rounded-lg object-cover max-h-64 md:max-h-72" alt="">
+                        @endif
+
+                        @if(strlen($post->description) <= 180)
+                            <p class="postText">{{ $post->description }}</p>
+                        @else
+                            <p class="postText">{{ Illuminate\Support\Str::limit($post->description, 180) }} <a href="{{route('post.single',$post->uuid)}}">See more</a></p>
+                        @endif
                     </a>
                 </div>
                 <!-- Date Created & View Stat -->
@@ -133,36 +139,10 @@
                 </div>
 
                 <!-- Barta Card Bottom -->
-                <footer class="border-t border-gray-200 pt-2">
+                <footer class="border-y border-gray-200 py-2">
                     <!-- Card Bottom Action Buttons -->
                     <div class="flex items-center justify-between">
                         <div class="flex gap-8 text-gray-600">
-                        @php
-                            $react_check = \App\Helper\Helper::reactCheck($post->id);
-                        @endphp
-                        <!-- Heart Button -->
-{{--                            <button--}}
-{{--                                type="button"--}}
-{{--                                data-id="{{$post->id}}"--}}
-{{--                                data-user_id="{{Auth::id()}}"--}}
-{{--                                class="-m-2 flex gap-2 text-xs items-center rounded-full p-2 text-gray-600 hover:text-gray-800 react">--}}
-{{--                                <span class="sr-only">Like</span>--}}
-{{--                                <svg--}}
-{{--                                    xmlns="http://www.w3.org/2000/svg"--}}
-{{--                                    fill="{{isset($react_check->react_yn) && $react_check->react_yn  === "Y" ? 'currentColor': 'none'}}"--}}
-{{--                                    viewBox="0 0 24 24"--}}
-{{--                                    stroke-width="2"--}}
-{{--                                    stroke="currentColor"--}}
-{{--                                    class="w-5 h-5 react-svg-{{$post->id}}"--}}
-{{--                                >--}}
-{{--                                    <path--}}
-{{--                                        stroke-linecap="round"--}}
-{{--                                        stroke-linejoin="round"--}}
-{{--                                        d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/>--}}
-{{--                                </svg>--}}
-
-{{--                                <p class="react_count">{{count($post->reactCounts) ?? '0'}}</p>--}}
-{{--                            </button>--}}
 
                             <livewire:like-button :key="$post->id" :$post/>
 
@@ -214,7 +194,53 @@
                     </div>
                     <!-- /Card Bottom Action Buttons -->
                 </footer>
+                <livewire:latest-comment :key="$post->id" :$post />
+
                 <!-- /Barta Card Bottom -->
+{{--                comment section start--}}
+                <form action="{{route('comment.store')}}" method="POST" class="mt-3">
+                    @csrf
+                    <input type="hidden" name="post_id" value="{{$post->id}}">
+                    <input type="hidden" name="comment_id" value="{{$user_comment->id ?? null}}">
+                    <!-- Create Comment Card Top -->
+                    <div>
+                        <div class="flex items-start /space-x-3/">
+                            <!-- User Avatar -->
+                            <!-- <div class="flex-shrink-0">-->
+                            <!--              <img-->
+                            <!--                class="h-10 w-10 rounded-full object-cover"-->
+                            <!--                src="https://avatars.githubusercontent.com/u/831997"-->
+                            <!--                alt="Ahmed Shamim" />-->
+                            <!--            </div> -->
+                            <!-- /User Avatar -->
+
+                            <!-- Auto Resizing Comment Box -->
+                            <div class="text-gray-700 font-normal w-full">
+
+                  <textarea x-data="{
+                          resize () {
+                              $el.style.height = '0px';
+                              $el.style.height = $el.scrollHeight + 'px'
+                          }
+                      }" x-init="resize()" @input="resize()" type="text" name="comment" placeholder="Write a comment..." class="flex w-full h-auto min-h-[40px] px-3 py-2 text-sm bg-gray-100 focus:bg-white border border-sm rounded-lg border-neutral-300 ring-offset-background placeholder:text-neutral-400 focus:border-neutral-300 focus:outline-none focus:ring-1 focus:ring-offset-0 focus:ring-neutral-400 disabled:cursor-not-allowed disabled:opacity-50 text-gray-900" style="height: 38px;">{{$user_comment->comment ?? ''}}</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Create Comment Card Bottom -->
+                    <div>
+                        <!-- Card Bottom Action Buttons -->
+                        <div class="flex items-center justify-end">
+                            <button type="submit" class="mt-2 flex gap-2 text-xs items-center rounded-full px-4 py-2 font-semibold bg-gray-800 hover:bg-black text-white">
+                                Comment
+                            </button>
+                        </div>
+                        <!-- /Card Bottom Action Buttons -->
+                    </div>
+                    <!-- /Create Comment Card Bottom -->
+                </form>
+{{--                comment section end--}}
             </article>
         @endforeach
     <!-- /Barta Card -->

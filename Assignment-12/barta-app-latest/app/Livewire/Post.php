@@ -25,7 +25,7 @@ class Post extends Component
 
     public function render()
     {
-        $posts = PostModel::with(['user', 'comments', 'viewCounts', 'reactCounts'])->latest()->paginate($this->per_page);
+        $posts = PostModel::with(['user', 'comments', 'viewCounts'])->latest()->paginate($this->per_page);
 
         $this->canLoadMore = count($posts) >= $this->per_page;
 
