@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\Post;
+use App\Models\React;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -14,14 +15,16 @@ class Like extends Notification
     use Queueable;
 
     public Post $post;
+    public React $react;
     public User $author;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($post,$author)
+    public function __construct($post,$react,$author)
     {
         $this->post = $post;
+        $this->react = $react;
         $this->author = $author;
     }
 
@@ -32,7 +35,7 @@ class Like extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail', 'database'];
+        return ['database'];
     }
 
     /**
@@ -42,7 +45,7 @@ class Like extends Notification
     {
         return (new MailMessage)
             ->greeting('Hello, '.$this->author->full_name)
-            ->line(auth()->user()->full_name.' reacted your post.')
+            ->line($notifiable->full_name.' reacted your post.')
             ->action('View the post', route('post.single', $this->post->uuid))
             ->line('Thank you for using our application!');
     }
@@ -55,7 +58,8 @@ class Like extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'resource_id' => $this->post->id
+            'message' => 'like_for_post',
+            'link' => route('post.single',$this->post->uuid)
         ];
     }
 }
