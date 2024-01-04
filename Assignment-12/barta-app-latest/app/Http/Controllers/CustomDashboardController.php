@@ -32,4 +32,14 @@ class CustomDashboardController extends Controller
 
         return view('user.search', ['data' => $data,'search' => $request->search]);
     }
+
+    public function allNotification()
+    {
+        $notifications = auth()->user()->notifications()->get();
+
+        auth()->user()->unreadNotifications()->update(['read_at'=>now()]);
+
+       return view('notifications.index',['notifications'=>$notifications]);
+
+    }
 }

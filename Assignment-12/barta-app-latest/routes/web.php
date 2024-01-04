@@ -26,6 +26,7 @@ Route::get('/', [AuthenticatedSessionController::class, 'create'])->name('login'
 Route::middleware('auth')->group(function () {
 
     Route::get('/home', [CustomDashboardController::class, 'dashboard'])->name('dashboard');
+    Route::get('/notifications', [CustomDashboardController::class, 'allNotification'])->name('notifications.index');
     Route::post('/user/search', [CustomDashboardController::class, 'search'])->name('user.search');
 
     Route::get('profile/{username}', [UserController::class, 'profile'])->name('profile');

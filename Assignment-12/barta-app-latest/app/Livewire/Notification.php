@@ -5,19 +5,20 @@ namespace App\Livewire;
 use App\Models\User;
 use Livewire\Component;
 use Livewire\Attributes\On;
+use Livewire\WithPagination;
 
 class Notification extends Component
 {
+    use WithPagination;
 
-    public $notification;
+    public $notifications;
 
     public function render()
     {
-        $this->notification = auth()->user()->notifications()->count();
+        $this->notifications = auth()->user()->notifications()->get();
 
-        return view('livewire.notification',['notification'=>$this->notification]);
+        return view('livewire.notification', ['notifications' => $this->notifications]);
     }
-
 
     #[On('echo:live-event,Like')]
     public function likeEvent($event)
