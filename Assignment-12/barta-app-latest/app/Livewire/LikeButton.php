@@ -21,8 +21,7 @@ class LikeButton extends Component
     {
         $user = auth()->user();
         $reactData = React::where('user_id',$user->id)->where('post_id',$this->post->id)->first();
-
-        //  $author = User::where('id',$this->post->user_id)->first();
+        $author = User::where('id',$this->post->user_id)->first();
 
         if ($reactData) {
 
@@ -37,18 +36,20 @@ class LikeButton extends Component
             ]);
 
             event(new LiveEvent($react));
+            $author->notify(new Like($this->post,$react,$author));
+
         }
 
-        if ($user->hasLiked($this->post)) {
-            $user->likes()->detach($this->post);
-        } else {
-            $user->likes()->attach($this->post);
-            //$author->notify(new Like($this->post,$author));
-        }
+//        if ($user->hasLiked($this->post)) {
+//            $user->likes()->detach($this->post);
+//        } else {
+//            $user->likes()->attach($this->post);
+//        }
     }
 
     public function render()
     {
-        return view('livewire.like-button');
+        $react = React::where('user_id',auth()->user()->id)->first();
+        return view('livewire.like-button',['liked'=>$react]);
     }
 }

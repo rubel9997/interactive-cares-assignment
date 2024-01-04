@@ -45,7 +45,7 @@ class CommentAdd extends Notification
     {
         return (new MailMessage)
             ->greeting('Hello, '.$this->author->full_name)
-            ->line(auth()->user()->full_name.' commented on your post.')
+            ->line($notifiable->full_name.' commented on your post.')
             ->action('View the post', route('post.single', $this->post->uuid))
             ->line('Thank you for using our application!');
     }
