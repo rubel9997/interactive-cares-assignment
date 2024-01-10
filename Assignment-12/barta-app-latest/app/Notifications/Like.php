@@ -13,13 +13,17 @@ class Like extends Notification
     use Queueable;
 
     public Post $post;
+    public string $userName;
+    public string $userImage;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($post)
+    public function __construct(Post $post, $full_name, $userImage)
     {
         $this->post = $post;
+        $this->userName = $full_name;
+        $this->userImage = $userImage;
     }
 
     /**
@@ -52,8 +56,11 @@ class Like extends Notification
     public function toArray(object $notifiable): array
     {
         return [
+            'post_id' => (string) $this->post->id,
             'message' => 'like_for_post',
-            'link' => route('post.single',$this->post->uuid)
+            'link' => route('post.single',$this->post->uuid),
+            'full_name'=> $this->userName,
+            'user_image'=> $this->userImage,
         ];
     }
 }

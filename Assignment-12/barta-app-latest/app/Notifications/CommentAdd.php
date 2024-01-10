@@ -17,15 +17,19 @@ class CommentAdd extends Notification
     public User $author;
     public Comment $comment;
     public Post $post;
+    public string $userName;
+    public string $userImage;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($author,$comment,$post)
+    public function __construct($author,$comment,$post,$full_name, $userImage)
     {
         $this->author = $author;
         $this->comment = $comment;
         $this->post = $post;
+        $this->userName = $full_name;
+        $this->userImage = $userImage;
     }
 
     /**
@@ -58,7 +62,11 @@ class CommentAdd extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'post_id'=>$this->post->id,
+            'post_id' => (string) $this->post->id,
+            'message' => 'comment_for_post',
+            'link' => route('post.single',$this->post->uuid),
+            'full_name'=> $this->userName,
+            'user_image'=> $this->userImage,
         ];
     }
 }

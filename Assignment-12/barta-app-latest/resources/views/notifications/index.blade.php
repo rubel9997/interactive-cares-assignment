@@ -7,14 +7,14 @@
     <main
         class="container max-w-xl mx-auto space-y-8 mt-6 w-full px-2 md:px-0 min-h-screen bg-white p-2 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
         @foreach($notifications as $notification)
-            <div class="flex items-center space-x-3 hover:bg-gray-200 p-3 rounded-lg">
+            <div class="flex items-center space-x-3 hover:bg-gray-200 p-3 m-2 rounded-lg">
                 <!-- User Avatar -->
                 <div class="flex-shrink-0">
-                    <a href="#">
-                        @if($auth_user->getFirstMediaUrl())
+                    <a  href="{{ isset($notification->data['link']) ? $notification->data['link'] : '#' }}">
+                        @if(isset($notification->data['user_image']))
                             <img
                                 class="h-10 w-10 rounded-full object-cover"
-                                src="{{$auth_user->getFirstMediaUrl()}}"
+                                src="{{$notification->data['user_image']}}"
                                 alt="profile image"/>
                         @else
                             <svg
@@ -35,12 +35,13 @@
                 <!-- User Info -->
                 <div class="text-gray-900 flex flex-col min-w-0 flex-1">
                     <a
-                        href="#"
+                        href="{{ isset($notification->data['link']) ? $notification->data['link'] : '#' }}"
                         class="block p-1 text-sm rounded-lg text-gray-700"
                         role="menuitem"
                         tabindex="-1"
-                        id="user-menu-item-0"
-                    >Mr Rubel Commented on your post Commented</a>
+                        id="user-menu-item-0">
+                        {{ $notification->data['full_name']  ?? 'X'}} {{ isset($notification->data['message']) && $notification->data['message'] == 'like_for_post' ? 'Likes':'Commented' }} on your post.
+                    </a>
                 </div>
                 <!-- /User Info -->
             </div>

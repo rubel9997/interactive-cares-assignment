@@ -2,28 +2,30 @@
 
 namespace App\Livewire;
 
-use App\Models\User;
 use Livewire\Component;
 use Livewire\Attributes\On;
-use Livewire\WithPagination;
 
 class Notification extends Component
 {
-    use WithPagination;
-
     public $notifications;
+
+
+    public function mount()
+    {
+        $this->notifications = auth()->user()->unreadNotifications()->get();
+    }
+
+    #[On('echo:like-event,Like')]
+    #[On('echo:comment-event,Comment')]
+
+    public function refreshNotifications()
+    {
+        $this->notifications = auth()->user()->unreadNotifications()->get();
+    }
 
     public function render()
     {
-        $this->notifications = auth()->user()->notifications()->get();
-
         return view('livewire.notification', ['notifications' => $this->notifications]);
-    }
-
-    #[On('echo:live-event,Like')]
-    public function likeEvent($event)
-    {
-        $this->notification = $event['react'];
     }
 
 }

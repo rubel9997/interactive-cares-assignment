@@ -11,7 +11,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class Like implements ShouldBroadcast
+class Comment implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -37,7 +37,7 @@ class Like implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new Channel('like-event'),
+            new Channel('comment-event'),
         ];
     }
 }

@@ -10,13 +10,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
+use App\Events\Comment as CommentEvent;
 
 class CommentController extends Controller
 {
     public function store(Request $request)
     {
         $uuid = str::uuid();
-
+        $user = auth()->user();
         $post = Post::where('id', $request->post_id)->first();
 
         if ($request->comment_id) {
@@ -26,15 +27,20 @@ class CommentController extends Controller
         } else {
             $comment = Comment::create([
                 'uuid' => $uuid,
-                'user_id' => Auth::id(),
+                'user_id' => $user->id,
                 'post_id' => $post->id,
                 'comment' => $request->comment,
             ]);
 
             if($comment){
+
+                $fullName = $user->full_name;
+                $imagePath = $user->getFirstMediaUrl();
+
                 $author = User::where('id',$post->user_id)->first();
 
-                $author->notify(new CommentAdd($author,$comment,$post));
+                event(new CommentEvent($post,$fullName,$imagePath));
+                $author->notify(new CommentAdd($author,$comment,$post,$fullName,$imagePath));
 
             }
         }
