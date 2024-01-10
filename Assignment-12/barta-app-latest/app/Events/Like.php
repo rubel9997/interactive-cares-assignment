@@ -22,7 +22,7 @@ class Like implements ShouldBroadcast
     /**
      * Create a new event instance.
      */
-    public function __construct(Post $post, $full_name, $userImage)
+    public function __construct($post, $full_name, $userImage)
     {
         $this->post = $post;
         $this->userName = $full_name;
