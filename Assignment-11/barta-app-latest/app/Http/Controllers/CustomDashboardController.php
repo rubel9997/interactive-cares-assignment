@@ -9,13 +9,15 @@ use Illuminate\Support\Facades\Auth;
 
 class CustomDashboardController extends Controller
 {
+
+
     public function dashboard()
     {
         if (Auth::check()) {
 
-            $posts = Post::with(['user', 'comments', 'viewCounts', 'reactCounts'])->latest()->get();
+         //   $posts = Post::with(['user', 'comments', 'viewCounts', 'reactCounts'])->latest()->get();
 
-            return view('dashboard', ['posts' => $posts]);
+            return view('dashboard');
         }
 
         return redirect()->route('login')->with('error', 'You have login first');

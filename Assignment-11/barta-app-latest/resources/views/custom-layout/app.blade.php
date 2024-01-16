@@ -7,6 +7,7 @@
     <link rel="icon" href="{{ asset('assets/logo/logo.png') }}" type="image/x-icon">
     <title>@yield('title') | Barta</title>
      @include('custom-layout.head')
+     @livewireStyles
 </head>
 <body class="bg-gray-100">
 
@@ -20,5 +21,6 @@
     @include('custom-layout.footer')
 
     @yield('script')
+    @livewireScripts
 </body>
 </html>

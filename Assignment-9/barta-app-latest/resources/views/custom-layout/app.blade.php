@@ -9,16 +9,16 @@
      @include('custom-layout.head')
 </head>
 <body class="bg-gray-100">
+<header>
+    <!-- Navigation -->
+    @include('custom-layout.nav')
+</header>
 
-    <header>
-        <!-- Navigation -->
-        @include('custom-layout.nav')
-    </header>
+@yield('content')
 
-    @yield('content')
+@include('custom-layout.footer')
 
-    @include('custom-layout.footer')
+@yield('script')
 
-    @yield('script')
 </body>
 </html>
