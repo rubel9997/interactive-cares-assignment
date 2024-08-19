@@ -9,9 +9,15 @@ function alphaCount($sentence) {
     // Remove non-alphabet characters and calculate the length of the cleaned sentence
     $cleanedSentence = preg_replace('/[^a-zA-Z]/', '', $sentence);
     //var_dump($cleanedSentence);
-
     $count = strlen($cleanedSentence);
-    
+
+    //  $count = 0;
+    // for($i=0; $i < strlen($sentence); $i++){
+    //     if (ctype_alpha($sentence[$i])) {
+    //         $count++;
+    //     }
+    // }
+
     printf($count);
 }
 
